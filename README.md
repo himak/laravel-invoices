@@ -8,6 +8,7 @@ Rename file **.env.example** to **.env** and fill access to database.
 
 Run this commands:
 
+	composer install
     php artisan migrate --seed
     php artisan key:generate
     php artisan serve
