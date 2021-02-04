@@ -1,0 +1,28 @@
+@extends('layouts.app')
+
+@section('content')
+
+    <div class="card">
+        <div class="card-header">{{ __('Detail customer') }}</div>
+        <div class="card-body">
+            <form action="{{ route('customers.update', $customer->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+
+                <input type="hidden" name="customer_id" value="{{ $customer->id }}">
+
+                <div class="form-group">
+                    <label for="business_name">Business name *</label>
+                    <input type="text" class="form-control @error('business_name') is-invalid @enderror" name="business_name" value="{{ old('business_name', $customer->business_name) }}">
+                </div>
+                <div class="form-group">
+                    <label for="identification_code">ID code</label>
+                    <input type="text" class="form-control @error('identification_code') is-invalid @enderror" name="identification_code" value="{{ old('identification_code', $customer->identification_code) }}">
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+
+@endsection
+
