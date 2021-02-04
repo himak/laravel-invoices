@@ -2,11 +2,14 @@
 
 This is simple presentation app for creating invoices in PHP framework Laravel.
 
-First create database and fill access in **.env** file.
+First create database e.g. with name **invoices**
+
+Rename file **.env.example** to **.env** and fill access to database.
 
 Run this commands:
 
     php artisan migrate --seed
+    php artisan key:generate
     php artisan serve
 
 Open browser:
