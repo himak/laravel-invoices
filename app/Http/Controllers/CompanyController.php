@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCompanyRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,12 +23,9 @@ class CompanyController extends Controller
         return view('company.show')->with('user', Auth::user());
     }
 
-    public function store(Request $request){
+    public function store(StoreCompanyRequest $request){
 
-        $request->validate([
-            'business_name' => 'required|min:3',
-            'identification_code' => 'required',
-        ]);
+        $request->validated();
 
         $user = User::find(Auth::id());
 

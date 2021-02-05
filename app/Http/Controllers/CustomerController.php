@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCustomerRequest;
+use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
@@ -38,12 +40,9 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCustomerRequest $request)
     {
-        $request->validate([
-            'business_name' => 'required|min:3|unique:customers,business_name',
-            'identification_code' => 'nullable|min:8|unique:customers,identification_code',
-        ]);
+        $request->validated();
 
         $customer = new Customer();
 
@@ -76,13 +75,9 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Customer $customer)
+    public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        $request->validate([
-            'customer_id' => 'required|integer|exists:customers,id',
-            'business_name' => 'required|min:3',
-            'identification_code' => 'nullable',
-        ]);
+        $request->validated();
 
         $customer = Customer::findOrFail($request->customer_id);
 

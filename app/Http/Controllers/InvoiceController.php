@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreInvoiceRequest;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
@@ -54,16 +55,10 @@ class InvoiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreInvoiceRequest $request)
     {
         // Validate data for invoice
-        $request->validate([
-            'invoice_number' => 'required',
-            'due_date' => 'required',
-            'customer_id' => 'required|integer|exists:customers,id',
-            'items' => 'required'
-        ]);
-
+        $request->validated();
 
         // Get total price for invoice from items
         $total_price = 0;
@@ -72,7 +67,6 @@ class InvoiceController extends Controller
             $total_price += Item::whereKey($item)->first()->getAttributeValue('price');
         }
 
-
         // Create invoice
         $invoice = Invoice::create([
             'customer_id' => $request->customer_id,
@@ -80,7 +74,6 @@ class InvoiceController extends Controller
             'due_date' => $request->due_date,
             'total_price' => $total_price
         ]);
-
 
         foreach($request->items as $key => $item){
 
@@ -130,26 +123,7 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        $request->validate([
-            'invoice_id' => 'required|integer|exists:invoices,id',
-            'due_date' => 'required',
-            'customer_id' => 'required|integer|exists:customers,id',
-            'items' => 'required'
-        ]);
-
-        $invoice = Invoice::findOrFail($request->invoice_id);
-
-        $invoice->customer_id = $request->customer_id;
-        $invoice->invoice_number = $request->invoice_number;
-        $invoice->due_date = $request->due_date;
-
-        $invoice->save();
-
-        $invoice->items()->sync($request->items);
-
-        session()->flash('success', 'Invoice was updated.');
-
-        return view('invoice.edit')->with('invoice', $invoice);
+        //
     }
 
     /**

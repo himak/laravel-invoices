@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreItemRequest;
+use App\Http\Requests\UpdateItemRequest;
 use App\Models\Item;
 use Illuminate\Http\Request;
 
@@ -34,12 +36,9 @@ class ItemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
-        $request->validate([
-            'name' => 'required|unique:items,name',
-            'price' => 'required'
-        ]);
+        $request->validated();
 
         $item = new Item();
 
@@ -74,13 +73,9 @@ class ItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Item $item)
+    public function update(UpdateItemRequest $request, Item $item)
     {
-        $request->validate([
-            'item_id' => 'required|integer|exists:items,id',
-            'name' => 'required',
-            'price' => 'required|numeric'
-        ]);
+        $request->validated();
 
         $item = Item::findOrFail($request->item_id);
 

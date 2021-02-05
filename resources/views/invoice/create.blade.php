@@ -10,11 +10,11 @@
                 @csrf
                 <div class="form-group">
                     <label for="invoice_number">{{ __('Number') }} *</label>
-                    <input type="text" class="form-control @error('invoice_number') is-invalid @enderror" name="invoice_number" value="{{ old('invoice_number') }}" placeholder="napr. INV210001">
+                    <input type="text" class="form-control @error('invoice_number') is-invalid @enderror" name="invoice_number" value="{{ old('invoice_number') }}" placeholder="{{ __('e.g. INV20210001') }}">
                 </div>
                 <div class="form-group">
                     <label for="due_date">{{ __('Due date') }} *</label>
-                    <input type="text" class="form-control @error('due_date') is-invalid @enderror" name="due_date" value="{{ old('due_date') }}" placeholder="XX.XX.XXXX">
+                    <input type="text" class="form-control @error('due_date') is-invalid @enderror" name="due_date" value="{{ old('due_date') }}" placeholder="dd.mm.yyyy">
                 </div>
                 <div class="form-group">
                     <label for="customer_id" class="d-flex justify-content-between">{{ __('Customer') }} *<a href="{{ route('customers.create') }}">{{ __('new customer') }}</a></label>
@@ -36,7 +36,7 @@
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>
             @else
-                <p class="mb-0"><strong class="text-danger">Nemáš zákazníka</strong>. <a href="{{ route('customers.create') }}">Pridaj si ho</a></p>
+                <p class="mb-0"><strong class="text-danger">{{ __('Missing customer.') }}</strong> <a href="{{ route('customers.create') }}">{{ __('Add customer') }}</a></p>
             @endif
         </div>
     </div>
