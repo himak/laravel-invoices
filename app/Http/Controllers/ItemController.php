@@ -96,7 +96,12 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        Item::destroy($item->id);
+        try {
+            Item::destroy($item->id);
+        } catch (Exception $e) {
+            session()->flash('danger', 'Item was not deleted!');
+            return redirect('/items');
+        }
 
         session()->flash('danger', 'Item was deleted!');
 

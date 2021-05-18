@@ -14,7 +14,7 @@
                 </div>
                 <div class="form-group">
                     <label for="due_date">{{ __('Due date') }} *</label>
-                    <input type="text" class="form-control @error('due_date') is-invalid @enderror" name="due_date" value="{{ old('due_date') }}" placeholder="dd.mm.yyyy">
+                    <input type="text" class="form-control @error('due_date') is-invalid @enderror" name="due_date" value="{{ old('due_date') }}" placeholder="yyyy-mm-dd">
                 </div>
                 <div class="form-group">
                     <label for="customer_id" class="d-flex justify-content-between">{{ __('Customer') }} *<a href="{{ route('customers.create') }}">{{ __('new customer') }}</a></label>

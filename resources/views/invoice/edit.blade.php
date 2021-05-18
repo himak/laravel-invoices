@@ -3,21 +3,21 @@
 @section('content')
 
     <div class="card">
-        <div class="card-header">{{ __('Detail faktúry') }}</div>
+        <div class="card-header">{{ __('Invoice Detail') }}</div>
         <div class="card-body">
             <form action="{{ route('invoices.update', $invoice->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                    <label for="invoice_number">Číslo faktúry *</label>
-                    <input type="text" class="form-control @error('invoice_number') is-invalid @enderror" name="invoice_number" value="{{ old('invoice_number', $invoice->invoice_number) }}" placeholder="napr. FA20200123">
+                    <label for="invoice_number">{{ __('Number') }} *</label>
+                    <input type="text" class="form-control @error('invoice_number') is-invalid @enderror" name="invoice_number" value="{{ old('invoice_number', $invoice->invoice_number) }}" placeholder="{{ __('e.g. INV20210001') }}">
                 </div>
                 <div class="form-group">
-                    <label for="due_date">Dátum splatnosti *</label>
-                    <input type="text" class="form-control @error('due_date') is-invalid @enderror" name="due_date" value="{{ old('due_date', $invoice->due_date) }}" placeholder="XX.XX.XXXX">
+                    <label for="due_date">{{ __('Due date') }} *</label>
+                    <input type="text" class="form-control @error('due_date') is-invalid @enderror" name="due_date" value="{{ old('due_date', $invoice->due_date) }}" placeholder="yyyy-mm-dd">
                 </div>
                 <div class="form-group">
-                    <label for="customer_id">Zákazník *</label>
+                    <label for="customer_id" class="d-flex justify-content-between">{{ __('Customer') }} *<a href="{{ route('customers.create') }}">{{ __('new customer') }}</a></label>
                     <select class="custom-select @error('customer_id') is-invalid @enderror" name="customer_id">
                         <option disabled>-</option>
                         @foreach($customers as $customer)
@@ -27,18 +27,18 @@
                 </div>
 
                 <fieldset>
-                    <legend>Položky *</legend>
+                    <legend>{{ __('Items') }} *</legend>
                     @foreach($invoice->invoiceItems as $item)
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="name">Nazov</label>
+                                    <label for="name">{{ __('Name') }}</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('due_date', $item->name) }}">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="price">Cena</label>
+                                    <label for="price">{{ __('Price') }}</label>
                                     <input type="text" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('due_date', $item->price) }}">
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                 </fieldset>
 
                 <div class="form-group">
-                    <label for="items" class="d-flex justify-content-between">Položka *<a href="{{ route('items.create') }}">nová položka</a></label>
+                    <label for="items" class="d-flex justify-content-between">{{ __('Item') }} *<a href="{{ route('items.create') }}">{{ __('new item') }}</a></label>
                     <select class="custom-select @error('items') is-invalid @enderror" name="items[]" multiple>
                         @foreach($items as $item)
                             <option value="{{ $item->id }}">{{ $item->name . ' : ' . $item->price }}</option>
