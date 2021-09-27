@@ -10,13 +10,14 @@
         <div class="card-header">{{ __('Customers') }}</div>
         <div class="card-body">
             @if(count($customers))
-            <table class="table table-hover">
+            <div class="table-responsive">
+                <table class="table table-hover">
                 <thead>
-                <tr>
-                    <th scope="col" class="col-6">Business name</th>
-                    <th scope="col" class="col-4">ID code</th>
-                    <th scope="col" class="col-2"></th>
-                </tr>
+                    <tr>
+                        <th scope="col" class="col-6">Business name</th>
+                        <th scope="col" class="col-4">ID code</th>
+                        <th scope="col" class="col-2"></th>
+                    </tr>
                 </thead>
                 <tbody>
                 @foreach($customers as $customer)
@@ -33,6 +34,7 @@
                 @endforeach
                 </tbody>
             </table>
+            </div>
             @else
                 <p class="mb-0">You haven't any customers. <a href="{{ route('customers.create') }}">Create a new customers</a></p>
             @endif
