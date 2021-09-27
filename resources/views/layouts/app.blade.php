@@ -64,7 +64,7 @@
                             </div>
                         </div>
                     @endauth
-                    <div class="col-md-8">
+                    <div class="col-md-8 mt-3 mt-sm-3 mt-md-0">
                         @yield('content')
                     </div>
                 </div>

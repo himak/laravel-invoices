@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="d-flex justify-content-end mb-3 mt-3 mt-md-0">
+    <div class="d-flex justify-content-end mb-3">
         <a href="{{ route('items.create') }}" class="btn btn-primary">{{ __('Add item') }}</a>
     </div>
 
@@ -22,7 +22,7 @@
                 @foreach($items as $item)
                     <tr>
                         <td>{{ $item->name }}</td>
-                        <td class="text-right" style="white-space: nowrap">{{ $item->price }} €</td>
+                        <td class="text-right text-nowrap">{{ $item->price }} €</td>
                         <td >
                             <div class="d-flex justify-content-end">
                                 <a href="{{ route('items.edit', $item->id) }}" class="btn btn-link btn-sm py-0">detail</a>
