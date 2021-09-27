@@ -13,13 +13,13 @@
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
-                        <tr>
-                            <th class="col-2">Number</th>
-                            <th class="col-4">Customer</th>
-                            <th class="col-2">Price</th>
-                            <th class="col-2">Date</th>
-                            <th class="col-2"></th>
-                        </tr>
+                            <tr>
+                                <th class="col-2">Number</th>
+                                <th class="col-4">Customer</th>
+                                <th class="col-2">Price</th>
+                                <th class="col-2">Date</th>
+                                <th class="col-2"></th>
+                            </tr>
                         </thead>
                         <tbody>
                         @foreach($invoices as $invoice)
