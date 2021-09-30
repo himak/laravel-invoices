@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -25,7 +26,7 @@ class CustomerController extends Controller
     public function index()
     {
         return view('customer.index')
-            ->with('customers', Customer::all(['id','business_name', 'identification_code'])
+            ->with('customers', \Auth::user()->customers()->get(['id','business_name', 'identification_code'])
                 ->sortBy('business_name'));
     }
 
@@ -44,12 +45,9 @@ class CustomerController extends Controller
     {
         $request->validated();
 
-        $customer = new Customer();
-
-        $customer->business_name = $request->business_name;
-        $customer->identification_code = $request->identification_code;
-
-        $customer->save();
+        auth()->user()->customers()->create(
+            $request->all()
+        );
 
         session()->flash('success', 'Customer saved successfully.');
 

@@ -25,7 +25,7 @@ class InvoiceController extends Controller
     public function index()
     {
         return view('invoice.index')
-                    ->with('invoices', Invoice::with('customer')->orderBy('invoice_number')->get());
+                    ->with('invoices', \Auth::user()->invoices()->with('customer')->orderBy('invoice_number')->get());
     }
 
     /**
@@ -33,8 +33,8 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        $customers = Customer::all();
-        $items = Item::all();
+        $customers = \Auth::user()->customers()->get(['id', 'business_name'])->sortBy('business_name');
+        $items = \Auth::user()->items()->get(['id', 'name', 'price'])->sortBy('name');
 
         if (!count($customers)) {
             session()->flash('info', 'First should add the customer.');
@@ -68,12 +68,23 @@ class InvoiceController extends Controller
         }
 
         // Create invoice
-        $invoice = Invoice::create([
-            'customer_id' => $request->customer_id,
-            'invoice_number' => $request->invoice_number,
-            'due_date' => $request->due_date,
-            'total_price' => $total_price
-        ]);
+//        $invoice = Invoice::create([
+//            'user_id' => auth()->id(),
+//            'customer_id' => $request->customer_id,
+//            'invoice_number' => $request->invoice_number,
+//            'due_date' => $request->due_date,
+//            'total_price' => $total_price
+//        ]);
+
+        $invoice = new Invoice();
+
+        $invoice->user_id = auth()->id();
+        $invoice->customer_id = $request->customer_id;
+        $invoice->invoice_number = $request->invoice_number;
+        $invoice->due_date = $request->due_date;
+        $invoice->total_price = $total_price;
+
+        $invoice->save();
 
         foreach($request->items as $key => $item){
 
@@ -113,7 +124,7 @@ class InvoiceController extends Controller
         return view('invoice.edit')
             ->with([
                 'invoice' => $invoice,
-                'customers' => Customer::all(),
+                'customers' => CustomerAlias::all(),
                 'items' => Item::all(),
         ]);
     }

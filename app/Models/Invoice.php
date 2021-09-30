@@ -22,9 +22,8 @@ class Invoice extends Model
     ];
 
 
-
     /**
-     * Get the customer for the invoice.
+     * Get the customer for an invoice.
      */
     public function customer()
     {
@@ -33,13 +32,21 @@ class Invoice extends Model
 
 
     /**
-     * Get the customer for the invoice.
+     * Get the customer for an invoice.
      */
     public function items()
     {
         return $this->belongsToMany(Item::class);
     }
 
+
+    /**
+     * Get the user associated with an invoice.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 
     /**

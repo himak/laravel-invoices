@@ -22,7 +22,8 @@ class ItemController extends Controller
      */
     public function index()
     {
-        return view('item.index')->with('items', Item::all('id', 'name', 'price')->sortBy('name'));
+        return view('item.index')
+            ->with('items', \Auth::user()->items()->get(['id', 'name', 'price'])->sortBy('name'));
     }
 
     /**
@@ -42,9 +43,10 @@ class ItemController extends Controller
 
         $item = new Item();
 
-        $request->price = str_replace(',', '.', $request->price);
-
+        $item->user_id = auth()->id();
         $item->name = $request->name;
+
+        $request->price = str_replace(',', '.', $request->price);
         $item->price = $request->price;
 
         $item->save();
