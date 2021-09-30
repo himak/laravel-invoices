@@ -24,7 +24,7 @@ class StoreItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:200|unique:items,name',
+            'name' => 'required|max:200',
             'price' => 'required|numeric'
         ];
     }

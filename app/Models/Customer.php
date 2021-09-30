@@ -18,4 +18,13 @@ class Customer extends Model
         'business_name',
         'identification_code',
     ];
+
+
+    /**
+     * Get the user associated with the customer.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

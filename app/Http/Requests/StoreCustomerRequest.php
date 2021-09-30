@@ -24,8 +24,8 @@ class StoreCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'business_name' => 'required|min:3|max:100|unique:customers,business_name',
-            'identification_code' => 'nullable|max:30|unique:customers,identification_code',
+            'business_name' => 'required|min:3|max:100',
+            'identification_code' => 'nullable|max:30',
         ];
     }
 }

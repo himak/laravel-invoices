@@ -19,6 +19,16 @@ class Item extends Model
         'price',
     ];
 
+
+    /**
+     * Get the user associated with an item.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
     /**
      * Get the item's price.
      * @param $value
