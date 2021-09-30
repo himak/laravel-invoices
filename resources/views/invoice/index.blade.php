@@ -10,31 +10,33 @@
         <div class="card-header">{{ __('Invoices') }}</div>
         <div class="card-body">
             @if(count($invoices))
-                <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th scope="col">Number</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Date</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($invoices as $invoice)
-                    <tr>
-                        <td>{{ $invoice->invoice_number }}</td>
-                        <td><a href="{{ route('customers.edit', $invoice->customer->id) }}">{{ $invoice->customer->business_name }}</a></td>
-                        <td>{{ $invoice->total_price }} €</td>
-                        <td>{{ $invoice->created_at->diffForHumans()  }}</td>
-                        <td class="d-flex justify-content-end">
-                            <a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-link py-0">view</a>
-                            <button type="button" class="btn btn-link text-danger py-0 px-1" data-toggle="modal" onclick="handleDelete({{ $invoice->id }})">x</button>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th class="col-2">Number</th>
+                            <th class="col-4">Customer</th>
+                            <th class="col-2">Price</th>
+                            <th class="col-2">Date</th>
+                            <th class="col-2"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($invoices as $invoice)
+                            <tr>
+                                <td>{{ $invoice->invoice_number }}</td>
+                                <td><a href="{{ route('customers.edit', $invoice->customer->id) }}">{{ $invoice->customer->business_name }}</a></td>
+                                <td class="text-nowrap">{{ $invoice->total_price }} €</td>
+                                <td>{{ $invoice->created_at->diffForHumans()  }}</td>
+                                <td class="d-flex justify-content-end">
+                                    <a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-link py-0">view</a>
+                                    <button type="button" class="btn btn-link text-danger py-0 px-1" data-toggle="modal" onclick="handleDelete({{ $invoice->id }})">x</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
             @else
                 <p class="mb-0">You haven't created an invoice yet. <a href="{{ route('invoices.create') }}">Create invoice</a></p>
             @endif
