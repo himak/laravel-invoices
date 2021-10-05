@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -26,8 +25,8 @@ class CustomerController extends Controller
     public function index()
     {
         return view('customer.index')
-            ->with('customers', \Auth::user()->customers()->get(['id','business_name', 'identification_code'])
-                ->sortBy('business_name'));
+            ->with('customers', \Auth::user()->customers()->get(['id','user_id','business_name', 'identification_code'])
+            ->sortBy('business_name'));
     }
 
     /**
@@ -59,7 +58,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        $this->authorize('update', $customer);
     }
 
     /**
@@ -67,6 +66,8 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
+        $this->authorize('update', $customer);
+
         return view('customer.edit')->with('customer', $customer);
     }
 
@@ -75,6 +76,8 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
+        $this->authorize('update', $customer);
+
         $request->validated();
 
         $customer = Customer::findOrFail($request->customer_id);
@@ -94,7 +97,9 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        Customer::destroy($customer->id);
+        $this->authorize('update', $customer);
+
+        \Auth::user()->customers()->findOrFail($customer->id)->delete();
 
         session()->flash('danger', 'Customer has been deleted!');
 

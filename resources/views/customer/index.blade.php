@@ -26,8 +26,13 @@
                         <td>{{ $customer->identification_code }}</td>
                         <td>
                             <div class="d-flex justify-content-end">
+                                @can('update', $customer)
                                 <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-link btn-sm py-0">detail</a>
                                 <button type="button" class="btn btn-link btn-sm text-danger py-0 px-1" data-toggle="modal" onclick="handleDelete({{ $customer->id }})">x</button>
+                                @else
+                                    <small class="text-danger">{{ __('not allowed') }}</small>
+                                    <button type="button" class="btn btn-link btn-sm text-danger py-0 px-1" data-toggle="modal" onclick="handleDelete({{ $customer->id }})">x</button>
+                                @endcan
                             </div>
                         </td>
                     </tr>

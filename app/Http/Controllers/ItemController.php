@@ -23,7 +23,8 @@ class ItemController extends Controller
     public function index()
     {
         return view('item.index')
-            ->with('items', \Auth::user()->items()->get(['id', 'name', 'price'])->sortBy('name'));
+            ->with('items', \Auth::user()->items()->get(['id', 'user_id','name', 'price'])
+            ->sortBy('name'));
     }
 
     /**
@@ -61,7 +62,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        //
+        $this->authorize('update', $item);
     }
 
     /**
@@ -69,6 +70,8 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
+        $this->authorize('update', $item);
+
         return view('item.edit')->with('item', $item);
     }
 
@@ -77,6 +80,8 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
+        $this->authorize('update', $item);
+
         $request->validated();
 
         $item = Item::findOrFail($request->item_id);
@@ -98,8 +103,10 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
+        $this->authorize('update', $item);
+
         try {
-            Item::destroy($item->id);
+            \Auth::user()->items()->findOrFail($item->id)->delete();
         } catch (Exception $e) {
             session()->flash('danger', 'Item was not deleted!');
             return redirect('/items');

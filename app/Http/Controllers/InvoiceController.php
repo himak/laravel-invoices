@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Item;
+use Auth;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -25,7 +26,8 @@ class InvoiceController extends Controller
     public function index()
     {
         return view('invoice.index')
-                    ->with('invoices', \Auth::user()->invoices()->with('customer')->orderBy('invoice_number')->get());
+                ->with('invoices', \Auth::user()->invoices()->with('customer')
+                ->orderBy('invoice_number')->get());
     }
 
     /**
@@ -68,14 +70,6 @@ class InvoiceController extends Controller
         }
 
         // Create invoice
-//        $invoice = Invoice::create([
-//            'user_id' => auth()->id(),
-//            'customer_id' => $request->customer_id,
-//            'invoice_number' => $request->invoice_number,
-//            'due_date' => $request->due_date,
-//            'total_price' => $total_price
-//        ]);
-
         $invoice = new Invoice();
 
         $invoice->user_id = auth()->id();
@@ -111,38 +105,45 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
+        $this->authorize('update', $invoice);
+
         return view('invoice.show')->with([
             'invoice' => Invoice::whereKey($invoice)->with(['customer', 'invoiceItems'])->first()
         ]);
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Invoice $invoice)
     {
-        return view('invoice.edit')
-            ->with([
-                'invoice' => $invoice,
-                'customers' => CustomerAlias::all(),
-                'items' => Item::all(),
-        ]);
+        $this->authorize('update', $invoice);
     }
+
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Invoice $invoice)
     {
-        //
+        $this->authorize('update', $invoice);
     }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Invoice $invoice)
     {
+        $this->authorize('update', $invoice);
+
         Invoice::destroy($invoice->id);
+
+        Auth::user()->invoices()->findOrFail($invoice->id)->delete();
 
         session()->flash('danger', 'Invoice was deleted!');
 
@@ -156,8 +157,6 @@ class InvoiceController extends Controller
      */
     public function print(Invoice $invoice)
     {
-        return view('invoice.print')->with([
-            'invoice' => Invoice::whereKey($invoice)->with(['customer', 'invoiceItems'])->first()
-        ]);
+        $this->authorize('update', $invoice);
     }
 }
