@@ -25,13 +25,18 @@
                         <td class="text-right text-nowrap">{{ $item->price }} €</td>
                         <td >
                             <div class="d-flex justify-content-end">
-                                <a href="{{ route('items.edit', $item->id) }}" class="btn btn-link btn-sm py-0">detail</a>
-                                {{--                            <form action="{{ route('items.destroy', $item->id) }}" method="POST">--}}
-                                {{--                                @csrf--}}
-                                {{--                                @method('DELETE')--}}
-                                {{--                                <button type="submit" class="btn btn-link text-danger py-0 px-1">x</button>--}}
-                                {{--                            </form>--}}
-                                <button type="button" class="btn btn-link btn-sm text-danger py-0 px-1" data-toggle="modal" onclick="handleDelete({{ $item->id }})">x</button>
+                                @can('update', $item)
+                                    <a href="{{ route('items.edit', $item->id) }}" class="btn btn-link btn-sm py-0">detail</a>
+                                    {{--                            <form action="{{ route('items.destroy', $item->id) }}" method="POST">--}}
+                                    {{--                                @csrf--}}
+                                    {{--                                @method('DELETE')--}}
+                                    {{--                                <button type="submit" class="btn btn-link text-danger py-0 px-1">x</button>--}}
+                                    {{--                            </form>--}}
+                                    <button type="button" class="btn btn-link btn-sm text-danger py-0 px-1" data-toggle="modal" onclick="handleDelete({{ $item->id }})">x</button>
+                                @else
+                                    <small class="text-danger">{{ __('not allowed') }}</small>
+                                    <button type="button" class="btn btn-link btn-sm text-danger py-0 px-1" data-toggle="modal" onclick="handleDelete({{ $item->id }})">x</button>
+                                @endcan
                             </div>
                         </td>
                     </tr>

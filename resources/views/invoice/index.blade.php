@@ -29,8 +29,12 @@
                                 <td class="text-nowrap">{{ $invoice->total_price }} €</td>
                                 <td>{{ $invoice->created_at->diffForHumans()  }}</td>
                                 <td class="d-flex justify-content-end">
-                                    <a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-link py-0">view</a>
-                                    <button type="button" class="btn btn-link text-danger py-0 px-1" data-toggle="modal" onclick="handleDelete({{ $invoice->id }})">x</button>
+                                    @can('update', $invoice)
+                                        <a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-link py-0">view</a>
+                                        <button type="button" class="btn btn-link text-danger py-0 px-1" data-toggle="modal" onclick="handleDelete({{ $invoice->id }})">x</button>
+                                    @else
+                                        <small class="text-danger">{{ __('not allowed') }}</small>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach
