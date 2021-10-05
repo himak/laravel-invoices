@@ -22,7 +22,7 @@ class InvoiceFactory extends Factory
     public function definition()
     {
         return [
-            //
+           //
         ];
     }
 }

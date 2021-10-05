@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\InvoiceItem;
+use App\Models\Item;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class InvoiceItemFactory extends Factory
