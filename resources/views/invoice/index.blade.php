@@ -25,9 +25,9 @@
                         @foreach($invoices as $invoice)
                             <tr>
                                 <td>{{ $invoice->invoice_number }}</td>
-                                <td><a href="{{ route('customers.edit', $invoice->customer->id) }}">{{ $invoice->customer->business_name }}</a></td>
+                                <td class="text-nowrap"><a href="{{ route('customers.edit', $invoice->customer->id) }}">{{ $invoice->customer->business_name }}</a></td>
                                 <td class="text-nowrap">{{ $invoice->total_price }} €</td>
-                                <td>{{ $invoice->created_at->diffForHumans()  }}</td>
+                                <td class="text-nowrap">{{ $invoice->created_at->diffForHumans()  }}</td>
                                 <td class="d-flex justify-content-end">
                                     @can('update', $invoice)
                                         <a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-link py-0">view</a>

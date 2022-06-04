@@ -10,11 +10,11 @@
                 @csrf
                 <div class="form-group">
                     <label for="invoice_number">{{ __('Number') }} *</label>
-                    <input type="text" class="form-control @error('invoice_number') is-invalid @enderror" name="invoice_number" value="{{ old('invoice_number') }}" placeholder="{{ __('e.g. INV20210001') }}">
+                    <input type="text" class="form-control @error('invoice_number') is-invalid @enderror" name="invoice_number" value="{{ old('invoice_number', 'INV' . now()->year . '001') }}" placeholder="{{ __('e.g. INV20210001') }}">
                 </div>
                 <div class="form-group">
                     <label for="due_date">{{ __('Due date') }} *</label>
-                    <input type="text" class="form-control @error('due_date') is-invalid @enderror" name="due_date" value="{{ old('due_date') }}" placeholder="yyyy-mm-dd">
+                    <input type="date" class="form-control @error('due_date') is-invalid @enderror" name="due_date" value="{{ old('due_date', now()->format('Y-m-d')) }}" placeholder="yyyy-mm-dd">
                 </div>
                 <div class="form-group">
                     <label for="customer_id" class="d-flex justify-content-between">{{ __('Customer') }} *<a href="{{ route('customers.create') }}">{{ __('new customer') }}</a></label>

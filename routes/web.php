@@ -26,6 +26,4 @@ Route::post('/company', [App\Http\Controllers\CompanyController::class, 'store']
 
 Route::resource('customers', App\Http\Controllers\CustomerController::class)->middleware(['auth', 'company']);
 Route::resource('items', App\Http\Controllers\ItemController::class);
-Route::resource('invoices', App\Http\Controllers\InvoiceController::class)->except('update');
-
-//Route::get('/invoices/{invoice}/print', [App\Http\Controllers\InvoiceController::class, 'print'])->name('invoice.print');
+Route::resource('invoices', App\Http\Controllers\InvoiceController::class)->except(['edit','update']);
