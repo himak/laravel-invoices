@@ -44,9 +44,7 @@ class CustomerController extends Controller
     {
         $request->validated();
 
-        auth()->user()->customers()->create(
-            $request->all()
-        );
+        auth()->user()->customers()->create($request->validated());
 
         session()->flash('success', 'Customer saved successfully.');
 
@@ -78,14 +76,10 @@ class CustomerController extends Controller
     {
         $this->authorize('update', $customer);
 
-        $request->validated();
-
-        $customer = Customer::findOrFail($request->customer_id);
-
-        $customer->business_name = $request->business_name;
-        $customer->identification_code = $request->identification_code;
-
-        $customer->save();
+        $customer = Customer::updateOrCreate(
+            ['id' => $request->customer_id],
+            $request->validated()
+        );
 
         session()->flash('success', 'Customer details changed successfully.');
 

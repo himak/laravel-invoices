@@ -69,16 +69,12 @@ class InvoiceController extends Controller
             $total_price += Item::whereKey($item)->first()->getAttributeValue('price');
         }
 
-        // Create invoice
-        $invoice = new Invoice();
-
-        $invoice->user_id = auth()->id();
-        $invoice->customer_id = $request->customer_id;
-        $invoice->invoice_number = $request->invoice_number;
-        $invoice->due_date = $request->due_date;
-        $invoice->total_price = $total_price;
-
-        $invoice->save();
+        $invoice = auth()->user()->invoices()->create([
+            'customer_id' => $request->customer_id,
+            'invoice_number' => $request->invoice_number,
+            'due_date' => $request->due_date,
+            'total_price' => $total_price
+        ]);
 
         foreach($request->items as $key => $item){
 
@@ -108,7 +104,7 @@ class InvoiceController extends Controller
         $this->authorize('update', $invoice);
 
         return view('invoice.show')->with([
-            'invoice' => Invoice::whereKey($invoice)->with(['customer', 'invoiceItems'])->first()
+            'invoice' => Invoice::whereKey($invoice)->with(['customer', 'invoiceItems'])->firstOrFail()
         ]);
     }
 
@@ -141,22 +137,10 @@ class InvoiceController extends Controller
     {
         $this->authorize('update', $invoice);
 
-        Invoice::destroy($invoice->id);
-
         Auth::user()->invoices()->findOrFail($invoice->id)->delete();
 
         session()->flash('danger', 'Invoice was deleted!');
 
         return redirect('/invoices');
-    }
-
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function print(Invoice $invoice)
-    {
-        $this->authorize('update', $invoice);
     }
 }

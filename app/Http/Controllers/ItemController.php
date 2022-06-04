@@ -40,17 +40,7 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
-        $request->validated();
-
-        $item = new Item();
-
-        $item->user_id = auth()->id();
-        $item->name = $request->name;
-
-        $request->price = str_replace(',', '.', $request->price);
-        $item->price = $request->price;
-
-        $item->save();
+        auth()->user()->items()->create($request->validated());
 
         session()->flash('success', 'Item was success saved.');
 
@@ -82,16 +72,10 @@ class ItemController extends Controller
     {
         $this->authorize('update', $item);
 
-        $request->validated();
-
-        $item = Item::findOrFail($request->item_id);
-
-        $request->price = str_replace(',', '.', $request->price);
-
-        $item->name = $request->name;
-        $item->price = $request->price;
-
-        $item->save();
+        $item = Item::updateOrCreate(
+            ['id' => $request->item_id],
+            $request->validated()
+        );
 
         session()->flash('success', 'Item was updated.');
 

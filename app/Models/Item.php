@@ -31,11 +31,36 @@ class Item extends Model
 
     /**
      * Get the item's price.
-     * @param $value
+     * @param string $value
      * @return string
      */
     public function getPriceAttribute($value)
     {
         return number_format($value, 2, '.', '');
+    }
+
+
+    /**
+     * Set the item's price.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = number_format($value, 2, '.', '');
+    }
+
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::created(function ($item) {
+            $item->user_id = auth()->id();
+        });
     }
 }

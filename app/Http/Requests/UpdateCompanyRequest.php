@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
 
-class StoreItemRequest extends FormRequest
+class UpdateCompanyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,20 +24,8 @@ class StoreItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:200',
-            'price' => 'required|numeric'
+            'business_name' => 'required|min:3|max:100|unique:users,business_name,' . \Auth::id(),
+            'identification_code' => 'required|max:30|unique:users,identification_code,' . \Auth::id(),
         ];
-    }
-
-    /**
-     * Prepare the data for validation.
-     *
-     * @return void
-     */
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'price' => Str::replace(',', '.', $this->price)
-        ]);
     }
 }

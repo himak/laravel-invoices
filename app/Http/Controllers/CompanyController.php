@@ -25,14 +25,7 @@ class CompanyController extends Controller
 
     public function store(StoreCompanyRequest $request){
 
-        $request->validated();
-
-        $user = User::find(Auth::id());
-
-        $user->business_name = $request->business_name;
-        $user->identification_code = $request->identification_code;
-
-        $user->save();
+        auth()->user()->update($request->validated());
 
         session()->flash('success', 'Your company detail was saved.');
 
