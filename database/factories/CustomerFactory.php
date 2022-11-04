@@ -23,7 +23,7 @@ class CustomerFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => random_int(1,3),
+            'user_id' => random_int(1,2),
             'business_name' => $this->faker->company,
             'identification_code' => random_int(12345678, 87654321),
         ];

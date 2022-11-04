@@ -59,9 +59,6 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        // Validate data for invoice
-        $request->validated();
-
         // Get total price for invoice from items
         $total_price = 0;
 

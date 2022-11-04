@@ -42,8 +42,6 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
-        $request->validated();
-
         auth()->user()->customers()->create($request->validated());
 
         session()->flash('success', 'Customer saved successfully.');

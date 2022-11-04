@@ -16,18 +16,20 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        \App\Models\User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@mail.test',
-//            'business_name' => 'Admin company, s. r. o.',
+           // 'business_name' => 'Admin company, s. r. o.', 
 //            'identification_code' => '12345678',
-            'email_verified_at' => now(),
             'password' => \Hash::make('Admin@123'),
-            'remember_token' => Str::random(10),
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
-
-        \App\Models\User::factory(2)->create();
+        
+        \App\Models\User::factory()->create([
+            'name' => 'kafex',
+            'email' => 'kafex@kafex.sk',
+            'business_name' => 'Kafex, s. r. o.', 
+            'identification_code' => '47566981',
+            'password' => \Hash::make('Kafex@123'),
+        ]);
     }
 }

@@ -26,7 +26,7 @@ class UpdateItemRequest extends FormRequest
         return [
             'item_id' => 'required|integer|exists:items,id',
             'name' => 'required|max:200',
-            'price' => 'required|numeric'
+            'price' => 'required|numeric|between:0,999999.99'
         ];
     }
 }
