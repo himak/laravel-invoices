@@ -5,12 +5,12 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/bootstrap';
 
 .list-group-item svg {
     position: relative;
     top: -2px;
-    margin-right: 4px;
+    //margin-right: 4px;
 }
 
 .btn .bi-chevron-left {
