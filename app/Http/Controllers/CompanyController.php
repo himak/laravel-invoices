@@ -9,16 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function show(User $user) {
         return view('company.show')->with('user', Auth::user());
     }

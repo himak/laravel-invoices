@@ -10,14 +10,6 @@ use Illuminate\Http\Request;
 class ItemController extends Controller
 {
     /**
-     * Create a new controller instance.
-     */
-    public function __construct()
-    {
-        $this->middleware(['auth', 'company']);
-    }
-
-    /**
      * Display a listing of the resource.
      */
     public function index()

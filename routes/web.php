@@ -14,16 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect('/login');
+    return redirect(\route('login'));
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth', 'company'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/company', [App\Http\Controllers\CompanyController::class, 'show'])->name('company.show');
-Route::post('/company', [App\Http\Controllers\CompanyController::class, 'store'])->name('company.store');
+    Route::get('/company', [App\Http\Controllers\CompanyController::class, 'show'])->name('company.show');
+    Route::post('/company', [App\Http\Controllers\CompanyController::class, 'store'])->name('company.store');
 
-Route::resource('customers', App\Http\Controllers\CustomerController::class)->middleware(['auth', 'company']);
-Route::resource('items', App\Http\Controllers\ItemController::class);
-Route::resource('invoices', App\Http\Controllers\InvoiceController::class)->except(['edit','update']);
+    Route::resource('customers', App\Http\Controllers\CustomerController::class);
+    Route::resource('items', App\Http\Controllers\ItemController::class);
+    Route::resource('invoices', App\Http\Controllers\InvoiceController::class)->except(['edit','update']);
+});
