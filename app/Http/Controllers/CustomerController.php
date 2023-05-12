@@ -34,7 +34,7 @@ class CustomerController extends Controller
     {
         auth()->user()->customers()->create($request->validated());
 
-        session()->flash('success', 'Customer saved successfully.');
+        session()->flash('success', __('Customer saved successfully.'));
 
         return redirect('/customers');
     }
@@ -69,9 +69,10 @@ class CustomerController extends Controller
             $request->validated()
         );
 
-        session()->flash('success', 'Customer details changed successfully.');
+        session()->flash('success', __('Customer details changed successfully.'));
 
-        return view('customer.edit')->with('customer', $customer);
+        return view('customer.edit')
+            ->with('customer', $customer);
     }
 
     /**
@@ -83,8 +84,8 @@ class CustomerController extends Controller
 
         \Auth::user()->customers()->findOrFail($customer->id)->delete();
 
-        session()->flash('danger', 'Customer has been deleted!');
+        session()->flash('danger', __('Customer has been deleted!'));
 
-        return redirect('/customers');
+        return redirect(route('customers.index'));
     }
 }

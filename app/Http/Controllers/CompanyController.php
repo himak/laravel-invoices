@@ -17,7 +17,7 @@ class CompanyController extends Controller
 
         auth()->user()->update($request->validated());
 
-        session()->flash('success', 'Your company detail was saved.');
+        session()->flash('success', __('Your company detail was saved.'));
 
         return back();
     }

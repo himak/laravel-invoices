@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
 use App\Models\Item;
-use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
@@ -15,8 +14,10 @@ class ItemController extends Controller
     public function index()
     {
         return view('item.index')
-            ->with('items', \Auth::user()->items()->get(['id', 'user_id','name', 'price'])
-            ->sortBy('name'));
+            ->with('items', \Auth::user()->items()
+                ->get(['id', 'user_id','name', 'price'])
+                ->sortBy('name')
+            );
     }
 
     /**
@@ -34,9 +35,9 @@ class ItemController extends Controller
     {
         auth()->user()->items()->create($request->validated());
 
-        session()->flash('success', 'Item was success saved.');
+        session()->flash('success', __('Item was success saved.'));
 
-        return redirect('/items');
+        return redirect(route('items.index'));
     }
 
     /**
@@ -54,7 +55,8 @@ class ItemController extends Controller
     {
         $this->authorize('update', $item);
 
-        return view('item.edit')->with('item', $item);
+        return view('item.edit')
+            ->with(compact($item));
     }
 
     /**
@@ -69,9 +71,10 @@ class ItemController extends Controller
             $request->validated()
         );
 
-        session()->flash('success', 'Item was updated.');
+        session()->flash('success', __('Item was updated.'));
 
-        return view('item.edit')->with('item', $item);
+        return view('item.edit')
+            ->with(compact($item));
     }
 
     /**
@@ -83,13 +86,13 @@ class ItemController extends Controller
 
         try {
             \Auth::user()->items()->findOrFail($item->id)->delete();
-        } catch (Exception $e) {
-            session()->flash('danger', 'Item was not deleted!');
-            return redirect('/items');
+        } catch (\Exception $e) {
+            session()->flash('danger', __('Item was not deleted!'));
+            return redirect(route('items.index'));
         }
 
-        session()->flash('danger', 'Item was deleted!');
+        session()->flash('danger', __('Item was deleted!'));
 
-        return redirect('/items');
+        return redirect(route('items.index'));
     }
 }

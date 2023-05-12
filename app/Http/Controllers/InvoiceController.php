@@ -18,8 +18,11 @@ class InvoiceController extends Controller
     public function index()
     {
         return view('invoice.index')
-                ->with('invoices', \Auth::user()->invoices()->with('customer')
-                ->orderBy('invoice_number')->get());
+                ->with('invoices', \Auth::user()->invoices()
+                    ->with('customer')
+                    ->orderBy('invoice_number')
+                    ->get()
+                );
     }
 
     /**
@@ -27,17 +30,21 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        $customers = \Auth::user()->customers()->get(['id', 'business_name'])->sortBy('business_name');
-        $items = \Auth::user()->items()->get(['id', 'name', 'price'])->sortBy('name');
+        $customers = \Auth::user()->customers()
+            ->get(['id', 'business_name'])
+            ->sortBy('business_name');
+        $items = \Auth::user()->items()
+            ->get(['id', 'name', 'price'])
+            ->sortBy('name');
 
         if (!count($customers)) {
-            session()->flash('info', 'First should add the customer.');
-            return redirect('/customers/create');
+            session()->flash('info', __('First should add the customer.'));
+            return redirect( route('customers.create'));
         }
 
         if (!count($items)) {
-            session()->flash('info', 'First should add some item.');
-            return redirect('/items/create');
+            session()->flash('info', __('First should add some item.'));
+            return redirect(route('items.create'));
         }
 
         return view('invoice.create')->with([
@@ -78,9 +85,9 @@ class InvoiceController extends Controller
 
         }
 
-        session()->flash('success', 'Invoice was success added.');
+        session()->flash('success', __('Invoice was success added.'));
 
-        return redirect('/invoices');
+        return redirect(route('invoices.index'));
     }
 
 
@@ -93,7 +100,9 @@ class InvoiceController extends Controller
         $this->authorize('update', $invoice);
 
         return view('invoice.show')->with([
-            'invoice' => Invoice::whereKey($invoice)->with(['customer', 'invoiceItems'])->firstOrFail()
+            'invoice' => Invoice::whereKey($invoice)
+                ->with(['customer', 'invoiceItems'])
+                ->firstOrFail()
         ]);
     }
 
@@ -128,8 +137,8 @@ class InvoiceController extends Controller
 
         Auth::user()->invoices()->findOrFail($invoice->id)->delete();
 
-        session()->flash('danger', 'Invoice was deleted!');
+        session()->flash('danger', __('Invoice was deleted!'));
 
-        return redirect('/invoices');
+        return redirect(route('invoices.index'));
     }
 }
