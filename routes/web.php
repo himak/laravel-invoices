@@ -23,7 +23,7 @@ Route::middleware(['auth', 'company'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::get('/company', [App\Http\Controllers\CompanyController::class, 'show'])->name('company.show');
-    Route::post('/company', [App\Http\Controllers\CompanyController::class, 'store'])->name('company.store');
+    Route::post('/company', [App\Http\Controllers\CompanyController::class, 'update'])->name('company.update');
 
     Route::resource('customers', App\Http\Controllers\CustomerController::class);
     Route::resource('items', App\Http\Controllers\ItemController::class);

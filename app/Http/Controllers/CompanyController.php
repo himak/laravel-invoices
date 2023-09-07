@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCompanyRequest;
+use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
@@ -13,7 +12,7 @@ class CompanyController extends Controller
         return view('company.show')->with('user', Auth::user());
     }
 
-    public function store(StoreCompanyRequest $request){
+    public function update(UpdateCompanyRequest $request){
 
         auth()->user()->update($request->validated());
 
