@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\PasswordUpdateController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\CompanyController;
+use App\Http\Controllers\Api\ItemController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,4 +29,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/company', [CompanyController::class, 'show']);
     Route::put('/company', [CompanyController::class, 'update']);
+
+    Route::apiResource('/items', ItemController::class)->names('api.items');
 });
