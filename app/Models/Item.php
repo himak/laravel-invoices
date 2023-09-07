@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -51,16 +52,10 @@ class Item extends Model
         $this->attributes['price'] = number_format($value, 2, '.', '');
     }
 
-
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
     protected static function booted()
     {
-        static::created(function ($item) {
-            $item->user_id = auth()->id();
+        static::addGlobalScope('user', function (Builder $builder) {
+            $builder->where('user_id', auth()->id());
         });
     }
 }

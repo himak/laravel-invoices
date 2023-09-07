@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Item;
+use App\Observers\ItemObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,6 +28,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Item::observe(ItemObserver::class);
     }
 }
