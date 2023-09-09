@@ -6,7 +6,7 @@ use App\Models\Item;
 
 class ItemObserver
 {
-    public function creating(Item $item)
+    public function creating(Item $item): void
     {
         if (auth()->check()) {
             $item->user_id = auth()->id();

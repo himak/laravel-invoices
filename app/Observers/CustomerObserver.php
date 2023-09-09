@@ -6,10 +6,10 @@ use App\Models\Customer;
 
 class CustomerObserver
 {
-    public function creating(Customer $item)
+    public function creating(Customer $customer): void
     {
         if (auth()->check()) {
-            $item->user_id = auth()->id();
+            $customer->user_id = auth()->id();
         }
     }
     /**
