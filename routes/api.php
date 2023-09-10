@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Auth\PasswordUpdateController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ItemController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,4 +34,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('/items', ItemController::class)->names('api.items');
     Route::apiResource('/customers', CustomerController::class)->names('api.customers');
+    Route::apiResource('/invoices', InvoiceController::class)->except('update')->names('api.invoices');
 });

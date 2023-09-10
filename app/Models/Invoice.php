@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,15 +34,6 @@ class Invoice extends Model
 
 
     /**
-     * Get the customer for an invoice.
-     */
-    public function items()
-    {
-        return $this->belongsToMany(Item::class);
-    }
-
-
-    /**
      * Get the user associated with an invoice.
      */
     public function user()
@@ -57,17 +50,13 @@ class Invoice extends Model
         return $this->hasMany(InvoiceItem::class);
     }
 
-
     /**
-     * Check if invoice has item
-     * @param $invoiceItemId
-     * @return bool
+     * Get the invoice's due date.
      */
-    public function hasInvoiceItems($invoiceItemId)
+    public function getDueDateAttribute($value): string
     {
-        return in_array($invoiceItemId, $this->invoiceItems->pluck('item_id')->toArray());
+        return Carbon::createFromFormat('Y-m-d', $value)->format('d.m.Y');
     }
-
 
     /**
      * Get the invoice's total price.
@@ -79,6 +68,22 @@ class Invoice extends Model
         return number_format($value, 2, '.', '');
     }
 
+    protected static function booted()
+    {
+        static::addGlobalScope('user', function (Builder $builder) {
+            $builder->where('user_id', auth()->id());
+        });
+    }
+
+    /**
+     * Check if invoice has item
+     * @param $invoiceItemId
+     * @return bool
+     */
+    public function hasInvoiceItems($invoiceItemId)
+    {
+        return in_array($invoiceItemId, $this->invoiceItems->pluck('item_id')->toArray());
+    }
 
     public function totalPrice($items) {
         $totalPrice = 0;
