@@ -26,21 +26,4 @@ First step fill company information in Settings and next create customer, items 
 
 ## API routes
 
-| Method | Route               |
-|--------|---------------------|
-| POST   | /api/auth/register  |
-| POST   | /api/auth/login     |
-| POST   | /api/auth/logout    |
-| PUT    | /api/auth/password  |
-| GET    | /api/company        |
-| PUT    | /api/company        |
-| GET    | /api/items          |
-| GET    | /api/items/{id}     |
-| POST   | /api/items          |
-| PUT    | /api/items/{id}     |
-| DEL    | /api/items/{id}     |
-| GET    | /api/customers      |
-| GET    | /api/customers/{id} |
-| POST   | /api/customers      |
-| PUT    | /api/customers/{id} |
-| DEL    | /api/customers/{id} |
+    php artisan route:list
