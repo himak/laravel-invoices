@@ -7,6 +7,11 @@ window._ = _;
  * code may be modified to fit the specific needs of your application.
  */
 
+import $ from 'jquery';
+window.$ = $;
+
+import 'bootstrap';
+
 try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
