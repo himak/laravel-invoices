@@ -54,9 +54,16 @@ class InvoiceController extends Controller
             return redirect(route('items.create'));
         }
 
+        if ((int) auth()->user()->invoices->max('invoice_number') === 0) {
+            $invoice_number = (int) now()->year . str_pad(1, 4, "0", STR_PAD_LEFT);
+        } else {
+            $invoice_number = (int) auth()->user()->invoices->max('invoice_number') + 1;
+        }
+
         return view('invoice.create')->with([
             'customers' => $customers,
-            'items' => $items
+            'items' => $items,
+            'invoice_number' => $invoice_number
         ]);
     }
 

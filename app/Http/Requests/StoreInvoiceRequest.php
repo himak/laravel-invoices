@@ -24,7 +24,7 @@ class StoreInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'invoice_number' => 'required|integer|min:1|max:255',
+            'invoice_number' => 'required|integer|min:1|max:99999999',
             'due_date' => 'required|date',
             'customer_id' => 'required|integer|exists:customers,id',
             'items' => 'required|array'
