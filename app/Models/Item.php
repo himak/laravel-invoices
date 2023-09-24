@@ -52,10 +52,10 @@ class Item extends Model
         $this->attributes['price'] = number_format($value, 2, '.', '');
     }
 
-    protected static function booted()
-    {
-        static::addGlobalScope('user', function (Builder $builder) {
-            $builder->where('user_id', auth()->id());
-        });
-    }
+//    protected static function booted()
+//    {
+//        static::addGlobalScope('user', function (Builder $builder) {
+//            $builder->where('user_id', auth()->id());
+//        });
+//    }
 }

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateCompanyRequest;
+use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class CompanyController extends Controller
+class ProfileController extends Controller
 {
     public function show(User $user) {
-        return view('company.show')->with('user', Auth::user());
+        return view('profile.show')->with('user', Auth::user());
     }
 
-    public function update(UpdateCompanyRequest $request){
+    public function update(UpdateProfileRequest $request){
 
         auth()->user()->update($request->validated());
 

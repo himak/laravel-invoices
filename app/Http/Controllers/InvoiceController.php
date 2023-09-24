@@ -6,7 +6,11 @@ use App\Http\Requests\StoreInvoiceRequest;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Item;
+use App\Models\User;
 use Auth;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -14,10 +18,13 @@ class InvoiceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Factory|View|Application
     {
+        /** @var User $user */
+        $user = auth()->user();
+
         return view('invoice.index')
-                ->with('invoices', \Auth::user()->invoices()
+                ->with('invoices', $user->invoices()
                     ->with('customer')
                     ->orderBy('invoice_number')
                     ->get()
@@ -32,6 +39,7 @@ class InvoiceController extends Controller
         $customers = \Auth::user()->customers()
             ->get(['id', 'business_name'])
             ->sortBy('business_name');
+
         $items = \Auth::user()->items()
             ->get(['id', 'name', 'price'])
             ->sortBy('name');

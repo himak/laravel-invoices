@@ -9,6 +9,7 @@ use App\Observers\CustomerObserver;
 use App\Observers\InvoiceObserver;
 use App\Observers\ItemObserver;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::useBootstrapFour();
+
         Item::observe(ItemObserver::class);
         Customer::observe(CustomerObserver::class);
         Invoice::observe(InvoiceObserver::class);

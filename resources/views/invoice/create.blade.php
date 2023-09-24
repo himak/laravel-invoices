@@ -10,7 +10,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="invoice_number">{{ __('Number') }} *</label>
-                    <input type="text" class="form-control @error('invoice_number') is-invalid @enderror" name="invoice_number" value="{{ old('invoice_number', 'INV' . now()->year . '001') }}" placeholder="{{ __('e.g. INV20210001') }}">
+                    <input type="text" class="form-control @error('invoice_number') is-invalid @enderror" name="invoice_number" value="{{ old('invoice_number', now()->year . '001') }}" placeholder="{{ __('e.g. 2021001') }}">
                 </div>
                 <div class="form-group">
                     <label for="due_date">{{ __('Due date') }} *</label>

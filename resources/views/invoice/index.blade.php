@@ -62,7 +62,7 @@
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
-                    <form action="" method="POST" class="d-inline" id="deleteProjectForm">
+                    <form action="" method="POST" class="d-inline" id="deleteForm">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" onsubmit="return confirm('Do you really want to submit the form?')">{{ __('Delete') }}</button>
@@ -80,7 +80,7 @@
 
             console.log('deleting.', id)
 
-            var form = document.getElementById('deleteProjectForm')
+            var form = document.getElementById('deleteForm')
 
             form.action = '/invoices/' + id
 

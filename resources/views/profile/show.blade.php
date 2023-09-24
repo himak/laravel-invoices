@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-header">{{ __('Settings') }}</div>
         <div class="card-body">
-            <form action="{{ route('company.update') }}" method="POST">
+            <form action="{{ route('profile.update') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="business_name">Business name *</label>

@@ -22,8 +22,8 @@ Auth::routes();
 Route::middleware(['auth', 'company'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    Route::get('/company', [App\Http\Controllers\CompanyController::class, 'show'])->name('company.show');
-    Route::post('/company', [App\Http\Controllers\CompanyController::class, 'update'])->name('company.update');
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
+    Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
     Route::resource('customers', App\Http\Controllers\CustomerController::class);
     Route::resource('items', App\Http\Controllers\ItemController::class);
