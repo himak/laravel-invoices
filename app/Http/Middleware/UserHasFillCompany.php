@@ -2,16 +2,22 @@
 
 namespace App\Http\Middleware;
 
-use Auth;
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class UserHasFillCompany
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::user()->business_name && !Auth::user()->identification_code) {
-            session()->flash('info', __('First step, please enter your billing information') . '. <strong><a href="'. route('profile.show') .'">Settings</a></strong>' . '.');
+        /* @var User $user */
+        $user = auth()->user();
+
+        if (! $user->getAttribute('business_name') && !$user->getAttribute('identification_code')) {
+            session()->flash('info', __('First step, please enter your billing information.'));
+
+            return Redirect::route('profile.show');
         }
 
         return $next($request);

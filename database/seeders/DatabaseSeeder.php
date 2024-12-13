@@ -9,10 +9,8 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call([
             UserSeeder::class,
@@ -21,5 +19,12 @@ class DatabaseSeeder extends Seeder
             InvoiceSeeder::class,
             InvoiceItemSeeder::class,
         ]);
+
+        // User::factory(10)->create();
+
+//        User::factory()->create([
+//            'name' => 'Test User',
+//            'email' => 'test@example.com',
+//        ]);
     }
 }

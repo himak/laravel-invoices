@@ -4,18 +4,19 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class  User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = [
         'name',
@@ -28,7 +29,7 @@ class  User extends Authenticatable
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -36,19 +37,24 @@ class  User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * Get the attributes that should be cast.
      *
-     * @var array
+     * @return array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
 
 
     /**
      * Get the customers of this user.
      */
-    public function customers() {
+    public function customers(): HasMany
+    {
         return $this->hasMany(Customer::class);
     }
 
@@ -56,7 +62,8 @@ class  User extends Authenticatable
     /**
      * Get an items of this user.
      */
-    public function items() {
+    public function items(): HasMany
+    {
         return $this->hasMany(Item::class);
     }
 
@@ -64,7 +71,8 @@ class  User extends Authenticatable
     /**
      * Get an invoices for this user.
      */
-    public function invoices() {
+    public function invoices(): HasMany
+    {
         return $this->hasMany(Invoice::class);
     }
 }
