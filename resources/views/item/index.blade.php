@@ -6,6 +6,8 @@
         <a href="{{ route('items.create') }}" class="btn btn-primary">{{ __('Add item') }}</a>
     </div>
 
+    <items-index></items-index>
+
     <div class="card">
         <div class="card-header">{{ __('Items') }}</div>
         <div class="card-body">

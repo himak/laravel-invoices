@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('auth/register', RegisterController::class);
 Route::post('auth/login', LoginController::class);
 
+Route::apiResource('/items', ItemController::class)->names('api.items');
+
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('auth/password', PasswordUpdateController::class);
@@ -32,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/company', [CompanyController::class, 'show']);
     Route::put('/company', [CompanyController::class, 'update']);
 
-    Route::apiResource('/items', ItemController::class)->names('api.items');
+//    Route::apiResource('/items', ItemController::class)->names('api.items');
     Route::apiResource('/customers', CustomerController::class)->names('api.customers');
     Route::apiResource('/invoices', InvoiceController::class)->except('update')->names('api.invoices');
 });
