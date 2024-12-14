@@ -6,7 +6,8 @@ use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 
 class CustomerController extends Controller
 {
@@ -21,8 +22,7 @@ class CustomerController extends Controller
         $customers = $user->customers()
             ->paginate(10);
 
-        return view('customer.index')
-            ->with('customers', $customers);
+        return view('customer.index', compact('customers'));
     }
 
     /**
@@ -36,21 +36,25 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCustomerRequest $request)
+    public function store(StoreCustomerRequest $request): RedirectResponse
     {
-        auth()->user()->customers()->create($request->validated());
+        /** @var User $user */
+        $user = auth()->user();
 
-        session()->flash('success', __('Customer saved successfully.'));
+        $user->customers()->create($request->validated());
 
-        return redirect('/customers');
+        return redirect()->route('customers.index')
+            ->with('success', __('Customer saved successfully.'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Customer $customer)
+    public function show(Customer $customer): RedirectResponse
     {
-        $this->authorize('update', $customer);
+        abort_if(Gate::denies('update', $customer), 403);
+
+        return redirect()->route('customers.edit', $customer);
     }
 
     /**
@@ -58,40 +62,37 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        $this->authorize('update', $customer);
+        abort_if(Gate::denies('update', $customer), 403);
 
-        return view('customer.edit')->with('customer', $customer);
+        return view('customer.edit', ['customer' => $customer]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer)
+    public function update(UpdateCustomerRequest $request, Customer $customer): RedirectResponse
     {
-        $this->authorize('update', $customer);
+        abort_if(Gate::denies('update', $customer), 403);
 
-        $customer = Customer::updateOrCreate(
-            ['id' => $request->customer_id],
-            $request->validated()
-        );
+        $customer->update($request->validated());
 
-        session()->flash('success', __('Customer details changed successfully.'));
-
-        return view('customer.edit')
-            ->with('customer', $customer);
+        return redirect()->route('customers.edit', $customer)
+            ->with([
+                'customer' => $customer,
+                'success' => __('Customer updated successfully.'),
+            ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Customer $customer)
+    public function destroy(Customer $customer): RedirectResponse
     {
-        $this->authorize('update', $customer);
+        abort_if(Gate::denies('update', $customer), 403);
 
-        \Auth::user()->customers()->findOrFail($customer->id)->delete();
+        $customer->delete();
 
-        session()->flash('danger', __('Customer has been deleted!'));
-
-        return redirect(route('customers.index'));
+        return redirect()->route('customers.index')
+            ->with('danger', __('Customer has been deleted!'));
     }
 }

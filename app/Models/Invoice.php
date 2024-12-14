@@ -23,6 +23,15 @@ class Invoice extends Model
         'total_price',
     ];
 
+    /* Show only invoices of auth user */
+    //    protected static function booted()
+    //    {
+    //        static::addGlobalScope('user', function (Builder $builder) {
+    //            $builder->where('user_id', auth()->id());
+    //        });
+    //    }
+
+
 
     /**
      * Get the customer for an invoice.
@@ -68,12 +77,6 @@ class Invoice extends Model
         return number_format($value, 2, '.', '');
     }
 
-    protected static function booted()
-    {
-        static::addGlobalScope('user', function (Builder $builder) {
-            $builder->where('user_id', auth()->id());
-        });
-    }
 
     /**
      * Check if invoice has item

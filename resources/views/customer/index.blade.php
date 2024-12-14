@@ -22,25 +22,25 @@
                         <tbody>
                         @foreach($customers as $customer)
                             <tr>
-                                <td>{{ $customer->business_name }}</td>
-                                <td>{{ $customer->identification_code }}</td>
-                                <td>
-                                    <div class="d-flex justify-content-end">
-                                        @can('update', $customer)
-                                        <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-link btn-sm py-0">detail</a>
-                                        <button type="button" class="btn btn-link btn-sm text-danger py-0 px-1" data-toggle="modal" onclick="handleDelete({{ $customer->id }})">x</button>
-                                        @else
-                                            <small class="text-danger">{{ __('not allowed') }}</small>
+                                @can('update', $customer)
+                                    <td>{{ $customer->business_name }}</td>
+                                    <td>{{ $customer->identification_code }}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-end">
+                                            <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-link btn-sm py-0">detail</a>
                                             <button type="button" class="btn btn-link btn-sm text-danger py-0 px-1" data-toggle="modal" onclick="handleDelete({{ $customer->id }})">x</button>
-                                        @endcan
-                                    </div>
-                                </td>
+                                        </div>
+                                    </td>
+                                @else
+                                    <td colspan="4" class="text-center">
+                                        <small class="text-danger">{{ __('not allowed') }}</small>
+                                    </td>
+                                @endcan
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
                 </div>
-
                 {{ $customers->links() }}
             @else
                 <p class="mb-0">You haven't any customers. <a href="{{ route('customers.create') }}">Create a new customers</a></p>
@@ -81,12 +81,12 @@
 
             console.log('deleting.', id)
 
-            var form = document.getElementById('deleteForm')
+              const form = document.getElementById('deleteForm');
 
-            form.action = '/customers/' + id
+              form.action = '/customers/' + id
 
-            $('#deleteModal').modal('show')
-        }
+                $('#deleteModal').modal('show')
+            }
     </script>
 @endsection
 

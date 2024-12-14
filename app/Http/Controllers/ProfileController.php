@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    public function show(User $user) {
+    public function show() {
         return view('profile.show')->with('user', Auth::user());
     }
 
-    public function update(UpdateProfileRequest $request){
+    public function update(UpdateProfileRequest $request): RedirectResponse
+    {
+        $request->user()->update($request->validated());
 
-        auth()->user()->update($request->validated());
-
-        session()->flash('success', __('Your company detail was saved.'));
-
-        return back();
+        return redirect()->route('profile.show')
+            ->with('success', __('Your company detail was saved.'));
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 
 class UserHasFillCompany
 {
@@ -15,9 +14,8 @@ class UserHasFillCompany
         $user = auth()->user();
 
         if (! $user->getAttribute('business_name') && !$user->getAttribute('identification_code')) {
-            session()->flash('info', __('First step, please enter your billing information.'));
-
-            return Redirect::route('profile.show');
+            return redirect()->route('profile.show')
+                ->with('info', __('Please enter your billing information.'));
         }
 
         return $next($request);

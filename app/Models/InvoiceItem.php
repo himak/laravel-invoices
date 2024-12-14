@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InvoiceItem extends Model
 {
@@ -11,8 +13,6 @@ class InvoiceItem extends Model
 
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array
      */
     protected $fillable = [
         'invoice_id',
@@ -24,18 +24,18 @@ class InvoiceItem extends Model
     /**
      * Get the items for an invoice.
      */
-    public function invoice()
+    public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class);
     }
 
     /**
      * Get the item's price.
-     * @param $value
-     * @return string
      */
-    public function getPriceAttribute($value)
+    protected function price(): Attribute
     {
-        return number_format($value, 2, '.', '');
+        return Attribute::make(
+            get: static fn (string $value) => number_format($value, 2, '.', ''),
+        );
     }
 }

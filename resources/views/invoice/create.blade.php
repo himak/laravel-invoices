@@ -20,8 +20,8 @@
                     <label for="customer_id" class="d-flex justify-content-between">{{ __('Customer') }} *<a href="{{ route('customers.create') }}">{{ __('new customer') }}</a></label>
                     <select class="custom-select @error('customer_id') is-invalid @enderror" name="customer_id">
                         <option disabled>select customer</option>
-                        @foreach($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->business_name }}</option>
+                        @foreach($customers as $key => $business_name)
+                            <option value="{{ $key }}">{{ $business_name }}</option>
                         @endforeach
                     </select>
                 </div>

@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Gate;
 
 class ItemController extends Controller
 {
@@ -26,14 +27,13 @@ class ItemController extends Controller
         $items = $user->items()
             ->paginate(10);
 
-        return view('item.index')
-            ->with('items', $items);
+        return view('item.index', compact('items'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): Factory|View|Application
+    public function create()
     {
         return view('item.create');
     }
@@ -43,34 +43,31 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request): Redirector|Application|RedirectResponse
     {
-        auth()->user()->items()->create($request->validated());
+        /** @var User $user */
+        $user = auth()->user();
 
-        session()->flash('success', __('Item was success saved.'));
+        $user->items()->create($request->validated());
 
-        return redirect(route('items.index'));
+        return redirect(route('items.index'))
+            ->with('success', __('Item was created successfully.'));
     }
 
     /**
      * Display the specified resource.
-     *
-     * @throws AuthorizationException
-*/
-    public function show(Item $item): Factory|View|Application
+    */
+    public function show(Item $item): RedirectResponse
     {
-        $this->authorize('update', $item);
+        abort_if(Gate::denies('update', $item), 403);
 
-        return view('item.edit')
-            ->with(compact($item));
+        return redirect()->route('items.edit', $item);
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @throws AuthorizationException
      */
     public function edit(Item $item): Factory|View|Application
     {
-        $this->authorize('update', $item);
+        abort_if(Gate::denies('update', $item), 403);
 
         return view('item.edit')
             ->with('item', $item);
@@ -83,17 +80,15 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item): Factory|View|Application
     {
-        $this->authorize('update', $item);
+        abort_if(Gate::denies('update', $item), 403);
 
-        $item = Item::query()->updateOrCreate(
-            ['id' => $request->item_id],
-            $request->validated()
-        );
-
-        session()->flash('success', __('Item was updated.'));
+        $item->update($request->validated());
 
         return view('item.edit')
-            ->with('item', $item);
+            ->with([
+                'item' => $item,
+                'success' => __('Item was updated successfully.'),
+            ]);
     }
 
     /**
@@ -103,18 +98,11 @@ class ItemController extends Controller
      */
     public function destroy(Item $item): Redirector|Application|RedirectResponse
     {
-        $this->authorize('update', $item);
+        abort_if(Gate::denies('update', $item), 403);
 
-        try {
-            \Auth::user()->items()->findOrFail($item->id)->delete();
-        } catch (\Exception $e) {
-            session()->flash('danger', __('Item was not deleted!'));
+        $item->delete();
 
-            return redirect(route('items.index'));
-        }
-
-        session()->flash('danger', __('Item was deleted!'));
-
-        return redirect(route('items.index'));
+        return redirect()->route('items.index')
+            ->with('danger', __('Item was deleted successfully.')) ;
     }
 }

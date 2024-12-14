@@ -24,18 +24,20 @@
                         <tbody>
                         @foreach($invoices as $invoice)
                             <tr>
-                                <td>{{ $invoice->invoice_number }}</td>
-                                <td class="text-nowrap"><a href="{{ route('customers.edit', $invoice->customer->id) }}">{{ $invoice->customer->business_name }}</a></td>
-                                <td class="text-nowrap">{{ $invoice->total_price }} €</td>
-                                <td class="text-nowrap">{{ $invoice->created_at->diffForHumans()  }}</td>
-                                <td class="d-flex justify-content-end">
-                                    @can('update', $invoice)
+                                @can('update', $invoice)
+                                    <td>{{ $invoice->user_id }}</td>
+                                    <td class="text-nowrap"><a href="{{ route('customers.edit', $invoice->customer->id) }}">{{ $invoice->customer->business_name }}</a></td>
+                                    <td class="text-nowrap">{{ $invoice->total_price }} €</td>
+                                    <td class="text-nowrap">{{ $invoice->created_at->diffForHumans()  }}</td>
+                                    <td class="d-flex justify-content-end">
                                         <a href="{{ route('invoices.show', $invoice->id) }}" class="btn btn-link py-0">view</a>
                                         <button type="button" class="btn btn-link text-danger py-0 px-1" data-toggle="modal" onclick="handleDelete({{ $invoice->id }})">x</button>
-                                    @else
+                                    </td>
+                                @else
+                                    <td colspan="5" class="text-center">
                                         <small class="text-danger">{{ __('not allowed') }}</small>
-                                    @endcan
-                                </td>
+                                    </td>
+                                @endcan
                             </tr>
                         @endforeach
                         </tbody>
@@ -80,7 +82,7 @@
 
             console.log('deleting.', id)
 
-            var form = document.getElementById('deleteForm')
+            const form = document.getElementById('deleteForm')
 
             form.action = '/invoices/' + id
 
