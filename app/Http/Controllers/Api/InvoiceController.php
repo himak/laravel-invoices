@@ -15,8 +15,6 @@ class InvoiceController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return AnonymousResourceCollection
      */
     public function index(): AnonymousResourceCollection
     {
@@ -25,17 +23,13 @@ class InvoiceController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  StoreInvoiceRequest  $request
-     *
-     * @return InvoiceResource
      */
     public function store(StoreInvoiceRequest $request): InvoiceResource
     {
         // Get total price for invoice from items
         $total_price = 0;
 
-        foreach($request->get('items') as $item) {
+        foreach ($request->get('items') as $item) {
             $total_price += Item::query()->findOrFail($item)->getAttributeValue('price');
         }
 
@@ -43,12 +37,12 @@ class InvoiceController extends Controller
             'invoice_number' => $request->get('invoice_number'),
             'due_date' => $request->get('due_date'),
             'customer_id' => $request->get('customer_id'),
-            'total_price' => $total_price
+            'total_price' => $total_price,
         ]);
 
-        foreach($request->get('items') as $item){
+        foreach ($request->get('items') as $item) {
 
-            $item_data = Item::query()->findOrFail($item)->only(['id','name','price']);
+            $item_data = Item::query()->findOrFail($item)->only(['id', 'name', 'price']);
 
             InvoiceItem::create([
                 'invoice_id' => $invoice->id,
@@ -64,10 +58,6 @@ class InvoiceController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  Invoice  $invoice
-     *
-     * @return InvoiceResource
      */
     public function show(Invoice $invoice): InvoiceResource
     {
@@ -76,10 +66,6 @@ class InvoiceController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  Invoice  $invoice
-     *
-     * @return Response
      */
     public function destroy(Invoice $invoice): Response
     {

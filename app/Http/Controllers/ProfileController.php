@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProfileRequest;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    public function show() {
+    public function show()
+    {
         return view('profile.show')->with('user', Auth::user());
     }
 

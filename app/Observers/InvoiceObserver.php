@@ -16,7 +16,6 @@ class InvoiceObserver
     /**
      * Handle the Invoice "created" event.
      *
-     * @param  \App\Models\Invoice  $invoice
      * @return void
      */
     public function created(Invoice $invoice)
@@ -27,7 +26,6 @@ class InvoiceObserver
     /**
      * Handle the Invoice "updated" event.
      *
-     * @param  \App\Models\Invoice  $invoice
      * @return void
      */
     public function updated(Invoice $invoice)
@@ -38,7 +36,6 @@ class InvoiceObserver
     /**
      * Handle the Invoice "deleted" event.
      *
-     * @param  \App\Models\Invoice  $invoice
      * @return void
      */
     public function deleted(Invoice $invoice)
@@ -49,7 +46,6 @@ class InvoiceObserver
     /**
      * Handle the Invoice "restored" event.
      *
-     * @param  \App\Models\Invoice  $invoice
      * @return void
      */
     public function restored(Invoice $invoice)
@@ -60,7 +56,6 @@ class InvoiceObserver
     /**
      * Handle the Invoice "force deleted" event.
      *
-     * @param  \App\Models\Invoice  $invoice
      * @return void
      */
     public function forceDeleted(Invoice $invoice)

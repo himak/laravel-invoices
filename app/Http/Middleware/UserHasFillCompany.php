@@ -13,7 +13,7 @@ class UserHasFillCompany
         /* @var User $user */
         $user = auth()->user();
 
-        if (! $user->getAttribute('business_name') && !$user->getAttribute('identification_code')) {
+        if (! $user->getAttribute('business_name') && ! $user->getAttribute('identification_code')) {
             return redirect()->route('profile.show')
                 ->with('info', __('Please enter your billing information.'));
         }

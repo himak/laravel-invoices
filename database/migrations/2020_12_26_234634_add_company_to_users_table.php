@@ -27,7 +27,7 @@ class AddCompanyToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['business_name','identification_code']);
+            $table->dropColumn(['business_name', 'identification_code']);
         });
     }
 }

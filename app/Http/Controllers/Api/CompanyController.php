@@ -12,10 +12,6 @@ class CompanyController extends Controller
 {
     /**
      * Display the specified resource.
-     *
-     * @param  Request  $request
-     *
-     * @return JsonResponse
      */
     public function show(Request $request): JsonResponse
     {
@@ -26,15 +22,11 @@ class CompanyController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     *
-     * @return JsonResponse
      */
     public function update(Request $request): JsonResponse
     {
         $validatedData = $request->validate([
-            'name'  => ['required', 'string'],
+            'name' => ['required', 'string'],
             'email' => ['required', 'email', Rule::unique('users')->ignore(auth()->user())],
         ]);
 

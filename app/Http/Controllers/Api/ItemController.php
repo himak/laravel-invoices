@@ -14,8 +14,6 @@ class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return AnonymousResourceCollection
      */
     public function index(): AnonymousResourceCollection
     {
@@ -24,10 +22,6 @@ class ItemController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  StoreItemRequest  $request
-     *
-     * @return ItemResource
      */
     public function store(StoreItemRequest $request): ItemResource
     {
@@ -38,10 +32,6 @@ class ItemController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  Item  $item
-     *
-     * @return ItemResource
      */
     public function show(Item $item): ItemResource
     {
@@ -50,11 +40,6 @@ class ItemController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  StoreItemRequest  $request
-     * @param  Item  $item
-     *
-     * @return JsonResponse
      */
     public function update(StoreItemRequest $request, Item $item): JsonResponse
     {
@@ -65,10 +50,6 @@ class ItemController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  Item  $item
-     *
-     * @return Response
      */
     public function destroy(Item $item): Response
     {

@@ -23,7 +23,7 @@ class StoreInvoiceRequest extends FormRequest
             'invoice_number' => 'required|integer|min:1|max:99999999',
             'due_date' => 'required|date',
             'customer_id' => 'required|integer|exists:customers,id',
-            'items' => 'required|array'
+            'items' => 'required|array',
         ];
     }
 }

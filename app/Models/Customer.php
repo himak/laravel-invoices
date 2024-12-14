@@ -20,7 +20,6 @@ class Customer extends Model
         'identification_code',
     ];
 
-
     /**
      * Get the user associated with the customer.
      */

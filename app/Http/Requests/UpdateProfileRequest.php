@@ -24,8 +24,8 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'business_name' => 'required|min:3|max:100|unique:users,business_name,' . \Auth::id(),
-            'identification_code' => 'required|max:30|unique:users,identification_code,' . \Auth::id(),
+            'business_name' => 'required|min:3|max:100|unique:users,business_name,'.\Auth::id(),
+            'identification_code' => 'required|max:30|unique:users,identification_code,'.\Auth::id(),
         ];
     }
 }

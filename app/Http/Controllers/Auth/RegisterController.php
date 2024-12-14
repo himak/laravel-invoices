@@ -34,7 +34,7 @@ class RegisterController extends Controller
     public static function middleware(): array
     {
         return [
-            'guest'
+            'guest',
         ];
     }
 

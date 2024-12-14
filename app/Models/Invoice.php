@@ -31,8 +31,6 @@ class Invoice extends Model
     //        });
     //    }
 
-
-
     /**
      * Get the customer for an invoice.
      */
@@ -41,7 +39,6 @@ class Invoice extends Model
         return $this->belongsTo(Customer::class);
     }
 
-
     /**
      * Get the user associated with an invoice.
      */
@@ -49,7 +46,6 @@ class Invoice extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 
     /**
      * Get the customer for the invoice.
@@ -69,7 +65,7 @@ class Invoice extends Model
 
     /**
      * Get the invoice's total price.
-     * @param $value
+     *
      * @return string
      */
     public function getTotalPriceAttribute($value)
@@ -77,10 +73,9 @@ class Invoice extends Model
         return number_format($value, 2, '.', '');
     }
 
-
     /**
      * Check if invoice has item
-     * @param $invoiceItemId
+     *
      * @return bool
      */
     public function hasInvoiceItems($invoiceItemId)
@@ -88,7 +83,8 @@ class Invoice extends Model
         return in_array($invoiceItemId, $this->invoiceItems->pluck('item_id')->toArray());
     }
 
-    public function totalPrice($items) {
+    public function totalPrice($items)
+    {
         $totalPrice = 0;
 
         foreach ($items as $item) {

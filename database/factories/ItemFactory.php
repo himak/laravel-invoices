@@ -22,7 +22,7 @@ class ItemFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => random_int(1,2),
+            'user_id' => random_int(1, 2),
             'name' => $this->faker->word,
             'price' => $this->faker->randomFloat(2, 0.01, 999999.99),
         ];

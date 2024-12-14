@@ -13,16 +13,12 @@ class PasswordUpdateController extends Controller
 {
     /**
      * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return JsonResponse
      */
     public function __invoke(Request $request): JsonResponse
     {
         $request->validate([
             'current_password' => ['required', 'current_password'],
-            'password'         => ['required', 'confirmed', Password::defaults()],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
         auth()->user()->update([

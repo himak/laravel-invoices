@@ -12,10 +12,10 @@ class CustomerObserver
             $customer->user_id = auth()->id();
         }
     }
+
     /**
      * Handle the Customer "created" event.
      *
-     * @param  \App\Models\Customer  $customer
      * @return void
      */
     public function created(Customer $customer)
@@ -26,7 +26,6 @@ class CustomerObserver
     /**
      * Handle the Customer "updated" event.
      *
-     * @param  \App\Models\Customer  $customer
      * @return void
      */
     public function updated(Customer $customer)
@@ -37,7 +36,6 @@ class CustomerObserver
     /**
      * Handle the Customer "deleted" event.
      *
-     * @param  \App\Models\Customer  $customer
      * @return void
      */
     public function deleted(Customer $customer)
@@ -48,7 +46,6 @@ class CustomerObserver
     /**
      * Handle the Customer "restored" event.
      *
-     * @param  \App\Models\Customer  $customer
      * @return void
      */
     public function restored(Customer $customer)
@@ -59,7 +56,6 @@ class CustomerObserver
     /**
      * Handle the Customer "force deleted" event.
      *
-     * @param  \App\Models\Customer  $customer
      * @return void
      */
     public function forceDeleted(Customer $customer)

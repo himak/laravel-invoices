@@ -26,7 +26,7 @@ class StoreItemRequest extends FormRequest
     {
         return [
             'name' => 'required|max:200',
-            'price' => 'required|numeric|between:0,999999.99'
+            'price' => 'required|numeric|between:0,999999.99',
         ];
     }
 
@@ -38,7 +38,7 @@ class StoreItemRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'price' => Str::replace(',', '.', $this->price)
+            'price' => Str::replace(',', '.', $this->price),
         ]);
     }
 }

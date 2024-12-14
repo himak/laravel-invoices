@@ -20,7 +20,6 @@ class Item extends Model
         'price',
     ];
 
-
     /**
      * Get the user associated with an item.
      */
@@ -29,17 +28,16 @@ class Item extends Model
         return $this->belongsTo(User::class);
     }
 
-
     /**
      * Get the item's price.
-     * @param string $value
+     *
+     * @param  string  $value
      * @return string
      */
     public function getPriceAttribute($value)
     {
         return number_format($value, 2, '.', '');
     }
-
 
     /**
      * Set the item's price.
@@ -52,10 +50,10 @@ class Item extends Model
         $this->attributes['price'] = number_format($value, 2, '.', '');
     }
 
-//    protected static function booted()
-//    {
-//        static::addGlobalScope('user', function (Builder $builder) {
-//            $builder->where('user_id', auth()->id());
-//        });
-//    }
+    //    protected static function booted()
+    //    {
+    //        static::addGlobalScope('user', function (Builder $builder) {
+    //            $builder->where('user_id', auth()->id());
+    //        });
+    //    }
 }

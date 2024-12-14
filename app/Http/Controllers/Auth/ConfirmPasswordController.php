@@ -32,7 +32,7 @@ class ConfirmPasswordController extends Controller
     public static function middleware(): array
     {
         return [
-            'auth'
+            'auth',
         ];
     }
 }

@@ -14,8 +14,6 @@ class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return AnonymousResourceCollection
      */
     public function index(): AnonymousResourceCollection
     {
@@ -24,10 +22,6 @@ class CustomerController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  StoreCustomerRequest  $request
-     *
-     * @return CustomerResource
      */
     public function store(StoreCustomerRequest $request): CustomerResource
     {
@@ -38,10 +32,6 @@ class CustomerController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  Customer  $customer
-     *
-     * @return CustomerResource
      */
     public function show(Customer $customer): CustomerResource
     {
@@ -50,11 +40,6 @@ class CustomerController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  StoreCustomerRequest  $request
-     * @param  Customer  $customer
-     *
-     * @return JsonResponse
      */
     public function update(StoreCustomerRequest $request, Customer $customer): JsonResponse
     {
@@ -65,10 +50,6 @@ class CustomerController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  Customer  $customer
-     *
-     * @return Response
      */
     public function destroy(Customer $customer): Response
     {

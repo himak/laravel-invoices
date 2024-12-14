@@ -54,7 +54,7 @@ class ItemController extends Controller
 
     /**
      * Display the specified resource.
-    */
+     */
     public function show(Item $item): RedirectResponse
     {
         abort_if(Gate::denies('update', $item), 403);
@@ -103,6 +103,6 @@ class ItemController extends Controller
         $item->delete();
 
         return redirect()->route('items.index')
-            ->with('danger', __('Item was deleted successfully.')) ;
+            ->with('danger', __('Item was deleted successfully.'));
     }
 }

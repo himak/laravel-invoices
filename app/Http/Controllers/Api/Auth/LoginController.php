@@ -15,9 +15,7 @@ class LoginController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  Request  $request
      *
-     * @return JsonResponse
      * @throws ValidationException
      */
     public function __invoke(Request $request): JsonResponse
@@ -35,7 +33,7 @@ class LoginController extends Controller
             ]);
         }
 
-        $device    = substr($request->userAgent() ?? '', 0, 255);
+        $device = substr($request->userAgent() ?? '', 0, 255);
         $expiresAt = $request->remember ? null : now()->addMinutes(config('session.lifetime'));
 
         return response()->json([

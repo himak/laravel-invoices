@@ -16,7 +16,6 @@ class ItemObserver
     /**
      * Handle the Item "created" event.
      *
-     * @param  \App\Models\Item  $item
      * @return void
      */
     public function created(Item $item)
@@ -27,7 +26,6 @@ class ItemObserver
     /**
      * Handle the Item "updated" event.
      *
-     * @param  \App\Models\Item  $item
      * @return void
      */
     public function updated(Item $item)
@@ -38,7 +36,6 @@ class ItemObserver
     /**
      * Handle the Item "deleted" event.
      *
-     * @param  \App\Models\Item  $item
      * @return void
      */
     public function deleted(Item $item)
@@ -49,7 +46,6 @@ class ItemObserver
     /**
      * Handle the Item "restored" event.
      *
-     * @param  \App\Models\Item  $item
      * @return void
      */
     public function restored(Item $item)
@@ -60,7 +56,6 @@ class ItemObserver
     /**
      * Handle the Item "force deleted" event.
      *
-     * @param  \App\Models\Item  $item
      * @return void
      */
     public function forceDeleted(Item $item)

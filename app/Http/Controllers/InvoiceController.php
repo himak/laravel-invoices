@@ -45,18 +45,18 @@ class InvoiceController extends Controller
             ->orderBy('name')
             ->get(['id', 'name', 'price']);
 
-        if (!count($customers)) {
+        if (! count($customers)) {
             return redirect()->route('customers.create')
                 ->with('info', __('First should add the customer.'));
         }
 
-        if (!count($items)) {
+        if (! count($items)) {
             return redirect()->route('items.create')
-                ->with('info', __('First should add some item.'))   ;
+                ->with('info', __('First should add some item.'));
         }
 
         if ((int) $user->invoices()->max('invoice_number') === 0) {
-            $invoice_number = (int) (now()->year. Str::padLeft(1, 4, '0'));
+            $invoice_number = (int) (now()->year.Str::padLeft(1, 4, '0'));
         } else {
             $invoice_number = (int) $user->invoices()->max('invoice_number') + 1;
         }
@@ -64,7 +64,7 @@ class InvoiceController extends Controller
         return view('invoice.create')->with([
             'customers' => $customers,
             'items' => $items,
-            'invoice_number' => $invoice_number
+            'invoice_number' => $invoice_number,
         ]);
     }
 
@@ -76,7 +76,7 @@ class InvoiceController extends Controller
         // Get total price for invoice from items
         $total_price = 0;
 
-        foreach($request->get('items') as $item) {
+        foreach ($request->get('items') as $item) {
             $total_price += Item::query()
                 ->whereKey($item)
                 ->first()?->getAttributeValue('price');
@@ -89,15 +89,15 @@ class InvoiceController extends Controller
             'customer_id' => $request->get('customer_id'),
             'invoice_number' => $request->get('invoice_number'),
             'due_date' => $request->get('due_date'),
-            'total_price' => $total_price
+            'total_price' => $total_price,
         ]);
 
-        foreach($request->get('items') as $item){
+        foreach ($request->get('items') as $item) {
 
             $item_data = Item::query()
                 ->whereKey($item)
                 ->first()
-                ?->only(['id','name','price']);
+                ?->only(['id', 'name', 'price']);
 
             InvoiceItem::query()->create([
                 'invoice_id' => $invoice->getAttribute('id'),
@@ -112,8 +112,6 @@ class InvoiceController extends Controller
             ->with('success', __('Invoice was success added.'));
     }
 
-
-
     /**
      * Display the specified resource.
      */
@@ -122,10 +120,9 @@ class InvoiceController extends Controller
         abort_if(Gate::denies('update', $invoice), 403);
 
         return view('invoice.show')->with([
-            'invoice' => $invoice
+            'invoice' => $invoice,
         ]);
     }
-
 
     /**
      * Remove the specified resource from storage.
