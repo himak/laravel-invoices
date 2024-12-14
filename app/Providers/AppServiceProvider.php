@@ -2,12 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Customer;
-use App\Models\Invoice;
-use App\Models\Item;
-use App\Observers\CustomerObserver;
-use App\Observers\InvoiceObserver;
-use App\Observers\ItemObserver;
 use App\Policies\CustomerPolicy;
 use App\Policies\InvoicePolicy;
 use App\Policies\ItemPolicy;

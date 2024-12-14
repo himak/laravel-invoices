@@ -2,27 +2,23 @@
 
 namespace Database\Seeders;
 
+use App\Models\Item;
 use Illuminate\Database\Seeder;
 
 class ItemSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        \App\Models\Item::factory()->create([
-            'name' => 'domain',
-        ]);
-
-        \App\Models\Item::factory()->create([
-            'name' => 'website',
-        ]);
-
-        \App\Models\Item::factory()->create([
-            'name' => 'design',
-        ]);
+        Item::factory()
+            ->count(3)
+            ->sequence(
+                ['name' => 'domain'],
+                ['name' => 'website'],
+                ['name' => 'design'],
+            )
+            ->create();
     }
 }

@@ -8,22 +8,20 @@ class AddUserIdToInvoicesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('invoices', function (Blueprint $table) {
-            $table->foreignId('user_id')->after('id')->constrained('users');
+            $table->foreignId('user_id')
+                ->after('id')
+                ->constrained('users');
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('invoices', function (Blueprint $table) {
             $table->dropForeign('invoices_user_id_foreign');

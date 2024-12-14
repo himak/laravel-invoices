@@ -2,29 +2,22 @@
 
 namespace Database\Factories;
 
-use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CustomerFactory extends Factory
 {
     /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = Customer::class;
-
-    /**
      * Define the model's default state.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'user_id' => random_int(1, 2),
-            'business_name' => $this->faker->company,
-            'identification_code' => random_int(12345678, 87654321),
+            'user_id' => User::all()->random()->id,
+            'business_name' => fake()->company,
+            'identification_code' => fake()->randomNumber(8),
         ];
     }
 }

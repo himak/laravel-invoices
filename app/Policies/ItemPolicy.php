@@ -12,11 +12,9 @@ class ItemPolicy
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Item $item)
+    public function update(User $user, Item $item): bool
     {
-        return $user->id === $item->user_id;
+        return $user->getAttribute('id') === $item->getAttribute('user_id');
     }
 }

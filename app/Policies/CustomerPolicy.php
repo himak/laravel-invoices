@@ -12,11 +12,9 @@ class CustomerPolicy
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Customer $customer)
+    public function update(User $user, Customer $customer): bool
     {
-        return $user->id === $customer->user_id;
+        return $user->getAttribute('id') === $customer->getAttribute('user_id');
     }
 }
