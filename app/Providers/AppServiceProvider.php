@@ -32,10 +32,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFour();
 
-        Item::observe(ItemObserver::class);
-        Customer::observe(CustomerObserver::class);
-        Invoice::observe(InvoiceObserver::class);
-
         Gate::define('update', [CustomerPolicy::class, 'update']);
         Gate::define('update', [ItemPolicy::class, 'update']);
         Gate::define('update', [InvoicePolicy::class, 'update']);

@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Item extends Model
 {
@@ -23,37 +25,19 @@ class Item extends Model
     /**
      * Get the user associated with an item.
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     /**
      * Get the item's price.
-     *
-     * @param  string  $value
-     * @return string
      */
-    public function getPriceAttribute($value)
+    protected function price(): Attribute
     {
-        return number_format($value, 2, '.', '');
+        return Attribute::make(
+            get: static fn (string $value) => number_format($value, 2, '.', ''),
+            set: static fn (string $value) => number_format($value, 2, '.', ''),
+        );
     }
-
-    /**
-     * Set the item's price.
-     *
-     * @param  string  $value
-     * @return string
-     */
-    public function setPriceAttribute($value)
-    {
-        $this->attributes['price'] = number_format($value, 2, '.', '');
-    }
-
-    //    protected static function booted()
-    //    {
-    //        static::addGlobalScope('user', function (Builder $builder) {
-    //            $builder->where('user_id', auth()->id());
-    //        });
-    //    }
 }

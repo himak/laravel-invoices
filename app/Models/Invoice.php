@@ -4,8 +4,11 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Invoice extends Model
 {
@@ -23,18 +26,10 @@ class Invoice extends Model
         'total_price',
     ];
 
-    /* Show only invoices of auth user */
-    //    protected static function booted()
-    //    {
-    //        static::addGlobalScope('user', function (Builder $builder) {
-    //            $builder->where('user_id', auth()->id());
-    //        });
-    //    }
-
     /**
      * Get the customer for an invoice.
      */
-    public function customer()
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
@@ -42,7 +37,7 @@ class Invoice extends Model
     /**
      * Get the user associated with an invoice.
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -50,7 +45,7 @@ class Invoice extends Model
     /**
      * Get the customer for the invoice.
      */
-    public function invoiceItems()
+    public function invoiceItems(): HasMany
     {
         return $this->hasMany(InvoiceItem::class);
     }
@@ -58,39 +53,20 @@ class Invoice extends Model
     /**
      * Get the invoice's due date.
      */
-    public function getDueDateAttribute($value): string
+    protected function dueDate(): Attribute
     {
-        return Carbon::createFromFormat('Y-m-d', $value)->format('d.m.Y');
+        return Attribute::make(
+            get: static fn (string $value) => Carbon::createFromFormat('Y-m-d', $value)?->format('d.m.Y'),
+        );
     }
 
     /**
      * Get the invoice's total price.
-     *
-     * @return string
      */
-    public function getTotalPriceAttribute($value)
+    protected function totalPrice(): Attribute
     {
-        return number_format($value, 2, '.', '');
-    }
-
-    /**
-     * Check if invoice has item
-     *
-     * @return bool
-     */
-    public function hasInvoiceItems($invoiceItemId)
-    {
-        return in_array($invoiceItemId, $this->invoiceItems->pluck('item_id')->toArray());
-    }
-
-    public function totalPrice($items)
-    {
-        $totalPrice = 0;
-
-        foreach ($items as $item) {
-            $totalPrice += $item->price;
-        }
-
-        return $totalPrice;
+        return Attribute::make(
+            get: static fn (string $value) => number_format($value, 2, '.', ''),
+        );
     }
 }

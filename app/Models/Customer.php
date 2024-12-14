@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Customer extends Model
 {
@@ -23,15 +24,8 @@ class Customer extends Model
     /**
      * Get the user associated with the customer.
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    protected static function booted()
-    {
-        static::addGlobalScope('user', function (Builder $builder) {
-            $builder->where('user_id', auth()->id());
-        });
     }
 }
