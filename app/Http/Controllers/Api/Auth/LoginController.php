@@ -23,6 +23,7 @@ class LoginController extends Controller
         $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
+            'remember' => ['nullable', 'boolean'],
         ]);
 
         $user = User::query()->where('email', $request->email)->first();
@@ -34,7 +35,8 @@ class LoginController extends Controller
         }
 
         $device = substr($request->userAgent() ?? '', 0, 255);
-        $expiresAt = $request->remember ? null : now()->addMinutes(config('session.lifetime'));
+
+        $expiresAt = $request->remember ? null : now()->addMinutes((int) config('session.lifetime'));
 
         return response()->json([
             'access_token' => $user->createToken($device, expiresAt: $expiresAt)->plainTextToken,

@@ -8,8 +8,11 @@ use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Item;
+use App\Models\User;
+use Auth;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class InvoiceController extends Controller
 {
@@ -18,7 +21,12 @@ class InvoiceController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return InvoiceResource::collection(Invoice::with('user', 'customer', 'invoiceItems')->get());
+        /* @var User $user */
+        $user = Auth::user();
+
+        $invoices = $user->invoices->load(['user', 'customer', 'invoiceItems']);
+
+        return InvoiceResource::collection($invoices);
     }
 
     /**
@@ -61,6 +69,8 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice): InvoiceResource
     {
+        abort_if(Gate::denies('update', $invoice), 403);
+
         return InvoiceResource::make($invoice);
     }
 
@@ -69,6 +79,8 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice): Response
     {
+        abort_if(Gate::denies('update', $invoice), 403);
+
         $invoice->delete();
 
         return response()->noContent();

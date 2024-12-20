@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CustomerController extends Controller
 {
@@ -17,7 +20,10 @@ class CustomerController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return CustomerResource::collection(Customer::all());
+        /* @var User $user */
+        $user = Auth::user();
+
+        return CustomerResource::collection($user->getAttribute('customers'));
     }
 
     /**
@@ -35,6 +41,8 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer): CustomerResource
     {
+        abort_if(Gate::denies('update', $customer), 403);
+
         return CustomerResource::make($customer);
     }
 
@@ -43,6 +51,8 @@ class CustomerController extends Controller
      */
     public function update(StoreCustomerRequest $request, Customer $customer): JsonResponse
     {
+        abort_if(Gate::denies('update', $customer), 403);
+
         $customer->update($request->validated());
 
         return response()->json(CustomerResource::make($customer), Response::HTTP_ACCEPTED);
@@ -53,6 +63,8 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer): Response
     {
+        abort_if(Gate::denies('update', $customer), 403);
+
         $customer->delete();
 
         return response()->noContent();

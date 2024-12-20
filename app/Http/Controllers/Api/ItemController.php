@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Resources\ItemResource;
 use App\Models\Item;
+use App\Models\User;
+use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class ItemController extends Controller
 {
@@ -17,7 +20,12 @@ class ItemController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return ItemResource::collection(Item::all());
+        /* @var User $user */
+        $user = Auth::user();
+
+        return ItemResource::collection($user->getAttribute('items'));
+        //        return ItemResource::collection(request()->user()->items);
+        //        return ItemResource::collection(Item::all());
     }
 
     /**
@@ -25,7 +33,10 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request): ItemResource
     {
-        $item = Item::query()->create($request->validated());
+        /* @var User $user */
+        $user = Auth::user();
+
+        $item = $user->items()->create($request->validated());
 
         return ItemResource::make($item);
     }
@@ -35,6 +46,8 @@ class ItemController extends Controller
      */
     public function show(Item $item): ItemResource
     {
+        abort_if(Gate::denies('update', $item), 403);
+
         return ItemResource::make($item);
     }
 
@@ -43,6 +56,8 @@ class ItemController extends Controller
      */
     public function update(StoreItemRequest $request, Item $item): JsonResponse
     {
+        abort_if(Gate::denies('update', $item), 403);
+
         $item->update($request->validated());
 
         return response()->json(ItemResource::make($item), Response::HTTP_ACCEPTED);
@@ -53,6 +68,8 @@ class ItemController extends Controller
      */
     public function destroy(Item $item): Response
     {
+        abort_if(Gate::denies('update', $item), 403);
+
         $item->delete();
 
         return response()->noContent();
