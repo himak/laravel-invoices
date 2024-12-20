@@ -11,10 +11,19 @@ class ItemPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine whether the user can delete the model.
+     */
+    public function delete(User $user, Item $item): bool
+    {
+        //
+        return $this->update($user, $item);
+    }
+
+    /**
      * Determine whether the user can update the model.
      */
     public function update(User $user, Item $item): bool
     {
-        return $user->getAttribute('id') === $item->getAttribute('user_id');
+        return $item->user()->is($user);
     }
 }

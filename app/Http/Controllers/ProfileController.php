@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProfileRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    public function show()
+    public function show(Request $request)
     {
-        return view('profile.show')->with('user', Auth::user());
+        return view('profile.show')->with('user', $request->user());
     }
 
     public function update(UpdateProfileRequest $request): RedirectResponse

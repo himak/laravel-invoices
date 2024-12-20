@@ -32,7 +32,7 @@ class StoreItemRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'price' => Str::replace(',', '.', $this->price),
+            'price' => Str::replace(',', '.', $this->get('price')),
         ]);
     }
 }

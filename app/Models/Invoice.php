@@ -50,6 +50,16 @@ class Invoice extends Model
     }
 
     /**
+     * Format the invoice's create at date
+     */
+    protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: static fn (string $value) => Carbon::createFromFormat('Y-m-d H:i:s', $value)?->format('d.m.Y'),
+        );
+    }
+
+    /**
      * Get the invoice's due date.
      */
     protected function dueDate(): Attribute
