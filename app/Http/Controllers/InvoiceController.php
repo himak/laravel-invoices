@@ -30,45 +30,6 @@ class InvoiceController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        /** @var User $user */
-        $user = auth()->user();
-
-        $customers = $user->customers()
-            ->orderBy('business_name')
-            ->pluck('business_name', 'id');
-
-        $items = $user->items()
-            ->orderBy('name')
-            ->get(['id', 'name', 'price']);
-
-        if (! count($customers)) {
-            return redirect()->route('customers.create')
-                ->with('info', __('First should add the customer.'));
-        }
-
-        if (! count($items)) {
-            return redirect()->route('items.create')
-                ->with('info', __('First should add some item.'));
-        }
-
-        if ((int) $user->invoices()->max('invoice_number') === 0) {
-            $invoice_number = (int) (now()->year.Str::padLeft(1, 4, '0'));
-        } else {
-            $invoice_number = (int) $user->invoices()->max('invoice_number') + 1;
-        }
-
-        return view('invoice.create')->with([
-            'customers' => $customers,
-            'items' => $items,
-            'invoice_number' => $invoice_number,
-        ]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreInvoiceRequest $request): RedirectResponse
@@ -110,6 +71,45 @@ class InvoiceController extends Controller
 
         return redirect()->route('invoices.index')
             ->with('success', __('Invoice was success added.'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $customers = $user->customers()
+            ->orderBy('business_name')
+            ->pluck('business_name', 'id');
+
+        $items = $user->items()
+            ->orderBy('name')
+            ->get(['id', 'name', 'price']);
+
+        if (! count($customers)) {
+            return redirect()->route('customers.create')
+                ->with('info', __('First should add the customer.'));
+        }
+
+        if (! count($items)) {
+            return redirect()->route('items.create')
+                ->with('info', __('First should add some item.'));
+        }
+
+        if ((int) $user->invoices()->max('invoice_number') === 0) {
+            $invoice_number = (int) (now()->year.Str::padLeft('1', 4, '0'));
+        } else {
+            $invoice_number = (int) $user->invoices()->max('invoice_number') + 1;
+        }
+
+        return view('invoice.create')->with([
+            'customers' => $customers,
+            'items' => $items,
+            'invoice_number' => $invoice_number,
+        ]);
     }
 
     /**
