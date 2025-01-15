@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ItemController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +28,7 @@ Route::post('auth/login', LoginController::class)->name('api.login');
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/user', static function (Request $request) {
-        return $request->user();
+        return UserResource::make($request->user());
     });
 
     Route::put('auth/password', PasswordUpdateController::class)->name('api.password.update');

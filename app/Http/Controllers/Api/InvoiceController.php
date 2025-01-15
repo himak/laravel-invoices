@@ -24,7 +24,7 @@ class InvoiceController extends Controller
         /* @var User $user */
         $user = Auth::user();
 
-        $invoices = $user->invoices->load(['user', 'customer', 'invoiceItems']);
+        $invoices = $user->getAttribute('invoices')->load(['user', 'customer', 'invoiceItems']);
 
         return InvoiceResource::collection($invoices);
     }

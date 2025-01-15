@@ -75,7 +75,7 @@ class Invoice extends Model
     protected function totalPrice(): Attribute
     {
         return Attribute::make(
-            get: static fn (string $value) => number_format($value, 2, '.', ''),
+            get: static fn ($value) => number_format($value, 2, '.', ''),
         );
     }
 }

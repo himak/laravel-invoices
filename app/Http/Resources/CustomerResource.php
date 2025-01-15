@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Customer;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CustomerResource extends JsonResource
@@ -9,15 +11,17 @@ class CustomerResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @return array<string, mixed>
      */
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
+        /** @var Customer $customer */
+        $customer = $this->resource;
+
         return [
-            'id' => $this->id,
-            'business_name' => $this->business_name,
-            'identification_code' => $this->identification_code,
+            'id' => $customer->getAttribute('id'),
+            'business_name' => $customer->getAttribute('business_name'),
+            'identification_code' => $customer->getAttribute('identification_code'),
         ];
     }
 }

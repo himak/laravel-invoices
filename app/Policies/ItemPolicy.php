@@ -15,7 +15,6 @@ class ItemPolicy
      */
     public function delete(User $user, Item $item): bool
     {
-        //
         return $this->update($user, $item);
     }
 

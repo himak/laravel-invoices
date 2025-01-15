@@ -40,7 +40,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be visible in arrays.
      *
-     * @var array
+     * @var list<string>
      */
     protected $visible = [
         'name',
