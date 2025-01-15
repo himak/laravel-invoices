@@ -27,3 +27,13 @@ First step fill company information in Settings and next create customer, items 
 ## API routes
 
     php artisan route:list
+
+#### Code style fixer
+
+    ./vendor/bin/pint
+
+#### Analyze code with PHPStan
+
+    ./vendor/bin/phpstan analyse
+
+
