@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controllers\HasMiddleware;
-
-class HomeController extends Controller implements HasMiddleware
+class HomeController extends Controller
 {
     /**
-     * Get the middleware that should be assigned to the controller.
+     * Create a new controller instance.
+     *
+     * @return void
      */
-    public static function middleware(): array
+    public function __construct()
     {
-        return [
-            'auth',
-        ];
+        $this->middleware('auth');
     }
 
     /**
      * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {

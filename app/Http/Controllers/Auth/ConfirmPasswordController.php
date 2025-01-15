@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ConfirmsPasswords;
-use Illuminate\Routing\Controllers\Middleware;
 
 class ConfirmPasswordController extends Controller
 {
@@ -23,16 +22,18 @@ class ConfirmPasswordController extends Controller
 
     /**
      * Where to redirect users when the intended url fails.
+     *
+     * @var string
      */
-    protected string $redirectTo = '/home';
+    protected $redirectTo = '/home';
 
     /**
-     * Get the middleware that should be assigned to the controller.
+     * Create a new controller instance.
+     *
+     * @return void
      */
-    public static function middleware(): array
+    public function __construct()
     {
-        return [
-            'auth',
-        ];
+        $this->middleware('auth');
     }
 }

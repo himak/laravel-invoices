@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\VerifiesEmails;
-use Illuminate\Routing\Controllers\Middleware;
 
 class VerificationController extends Controller
 {
@@ -23,18 +22,20 @@ class VerificationController extends Controller
 
     /**
      * Where to redirect users after verification.
+     *
+     * @var string
      */
-    protected string $redirectTo = '/home';
+    protected $redirectTo = '/home';
 
     /**
-     * Get the middleware that should be assigned to the controller.
+     * Create a new controller instance.
+     *
+     * @return void
      */
-    public static function middleware(): array
+    public function __construct()
     {
-        return [
-            'auth',
-            new Middleware('signed', only: ['verify']),
-            new Middleware('throttle:6,1', only: ['verify', 'resend']),
-        ];
+        $this->middleware('auth');
+        $this->middleware('signed')->only('verify');
+        $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 }

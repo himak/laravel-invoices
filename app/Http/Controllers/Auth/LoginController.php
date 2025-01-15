@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 
-class LoginController extends Controller implements HasMiddleware
+class LoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -24,17 +22,19 @@ class LoginController extends Controller implements HasMiddleware
 
     /**
      * Where to redirect users after login.
+     *
+     * @var string
      */
-    protected string $redirectTo = '/home';
+    protected $redirectTo = '/home';
 
     /**
-     * Get the middleware that should be assigned to the controller.
+     * Create a new controller instance.
+     *
+     * @return void
      */
-    public static function middleware(): array
+    public function __construct()
     {
-        return [
-            new Middleware('guest', except: ['logout']),
-            new Middleware('auth', only: ['logout']),
-        ];
+        $this->middleware('guest')->except('logout');
+        $this->middleware('auth')->only('logout');
     }
 }
