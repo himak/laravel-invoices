@@ -36,4 +36,8 @@ First step fill company information in Settings and next create customer, items 
 
     ./vendor/bin/phpstan analyse
 
+#### Analyze code with PHP CS fixer
+
+    ./vendor/bin/php-cs-fixer fix app 
+
 
