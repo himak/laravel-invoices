@@ -15,8 +15,9 @@ class ProfileController extends Controller
      */
     public function show(Request $request): JsonResponse
     {
-        return response()->json($request->user()
-            ->only('id', 'name', 'email', 'business_name', 'identification_code')
+        return response()->json(
+            $request->user()
+                ->only('id', 'name', 'email', 'business_name', 'identification_code')
         );
     }
 
