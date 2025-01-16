@@ -38,7 +38,11 @@ class InvoiceController extends Controller
         $total_price = 0;
 
         foreach ($request->get('items') as $item) {
-            $total_price += Item::query()->findOrFail($item)->getAttributeValue('price');
+
+            /* @var Item $findItem */
+            $findItem = Item::query()->findOrFail($item);
+
+            $total_price += $findItem->getAttributeValue('price');
         }
 
         $invoice = Invoice::create([

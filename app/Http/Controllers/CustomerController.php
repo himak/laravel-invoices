@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 
@@ -14,7 +15,7 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         /** @var User $user */
         $user = auth()->user();
@@ -23,14 +24,6 @@ class CustomerController extends Controller
             ->paginate(10);
 
         return view('customer.index', compact('customers'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('customer.create');
     }
 
     /**
@@ -48,6 +41,14 @@ class CustomerController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): View
+    {
+        return view('customer.create');
+    }
+
+    /**
      * Display the specified resource.
      */
     public function show(Customer $customer): RedirectResponse
@@ -60,7 +61,7 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Customer $customer)
+    public function edit(Customer $customer): View
     {
         abort_if(Gate::denies('update', $customer), 403);
 

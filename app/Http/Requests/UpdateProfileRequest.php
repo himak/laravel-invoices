@@ -26,7 +26,7 @@ class UpdateProfileRequest extends FormRequest
             'email' => [
                 'nullable', 'string', 'email', 'max:255',
                 Rule::unique('users', 'email')
-                    ->ignore(request()->user()->id),
+                    ->ignore(request()->user()->getAttribute('id')),
             ],
             'business_name' => 'required|min:3|max:100',
             'identification_code' => [

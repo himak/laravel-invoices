@@ -8,7 +8,6 @@ use App\Models\Item;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -19,7 +18,7 @@ class ItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Factory|View|Application
+    public function index(): View
     {
         /** @var User $user */
         $user = auth()->user();
@@ -28,14 +27,6 @@ class ItemController extends Controller
             ->paginate(10);
 
         return view('item.index', compact('items'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('item.create');
     }
 
     /**
@@ -53,6 +44,14 @@ class ItemController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): View
+    {
+        return view('item.create');
+    }
+
+    /**
      * Display the specified resource.
      */
     public function show(Item $item): RedirectResponse
@@ -65,7 +64,7 @@ class ItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Item $item): Factory|View|Application
+    public function edit(Item $item): View
     {
         abort_if(Gate::denies('update', $item), 403);
 
@@ -78,7 +77,7 @@ class ItemController extends Controller
      *
      * @throws AuthorizationException
      */
-    public function update(UpdateItemRequest $request, Item $item): Factory|View|Application
+    public function update(UpdateItemRequest $request, Item $item): View
     {
         abort_if(Gate::denies('update', $item), 403);
 

@@ -7,4 +7,12 @@ parameters:
         - app/
 
     # Level 10 is the highest level
-    level: 5
+    level: 8
+
+    ignoreErrors:
+        - identifier: missingType.generics
+        - identifier: missingType.iterableValue
+        - identifier: argument.templateType
+        - identifier: method.notFound
+        - identifier: method.nonObject
+        - identifier: offsetAccess.notFound

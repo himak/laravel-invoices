@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class UserHasFillCompany
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         /* @var User $user */
         $user = auth()->user();

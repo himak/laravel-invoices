@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -21,7 +22,10 @@ class PasswordUpdateController extends Controller
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
-        auth()->user()->update([
+        /* @var User $user */
+        $user = auth()->user();
+
+        $user->update([
             'password' => Hash::make($request->input('password')),
         ]);
 
