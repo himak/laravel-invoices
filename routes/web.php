@@ -1,22 +1,38 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+// Default redirect and authentication routes
 Route::redirect('/', '/login');
-
 Auth::routes();
 
-Route::middleware(['auth', 'company'])->group(function () {
-    Route::resource('customers', App\Http\Controllers\CustomerController::class);
-    Route::resource('items', App\Http\Controllers\ItemController::class);
-    Route::resource('invoices', App\Http\Controllers\InvoiceController::class)
-        ->except(['edit', 'update']);
-});
+// Guest accessible routes can go here if needed
 
+// Authenticated routes
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // Dashboard
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
-    Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    // Profile management
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile', 'show')->name('profile.show');
+        Route::post('/profile', 'update')->name('profile.update');
+    });
+
+    // Company-specific routes
+    Route::middleware(['company'])->group(function () {
+        Route::resources([
+            'customers' => CustomerController::class,
+            'items' => ItemController::class,
+            'invoices' => InvoiceController::class,
+        ]);
+
+        Route::resource('invoices', InvoiceController::class)->except(['edit', 'update']);
+    });
 });

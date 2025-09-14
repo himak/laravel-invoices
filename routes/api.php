@@ -22,22 +22,37 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('auth/register', RegisterController::class)->name('api.register');
-Route::post('auth/login', LoginController::class)->name('api.login');
 
-Route::middleware('auth:sanctum')->group(function () {
+// Public authentication routes
+Route::name('api.')->group(function () {
+    Route::post('auth/register', RegisterController::class)->name('register');
+    Route::post('auth/login', LoginController::class)->name('login');
+});
 
-    Route::get('/user', static function (Request $request) {
-        return UserResource::make($request->user());
+// Protected routes
+Route::middleware('auth:sanctum')->name('api.')->group(function () {
+    // User information
+    Route::get('/user', fn (Request $request) => UserResource::make($request->user()));
+
+    // Authentication management
+    Route::prefix('auth')->group(function () {
+        Route::put('password', PasswordUpdateController::class)->name('password.update');
+        Route::post('logout', LogoutController::class)->name('logout');
     });
 
-    Route::put('auth/password', PasswordUpdateController::class)->name('api.password.update');
-    Route::post('auth/logout', LogoutController::class)->name('api.logout');
+    // Profile management
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile', 'show')->name('profile.show');
+        Route::put('/profile', 'update')->name('profile.update');
+    });
 
-    Route::get('/profile', [ProfileController::class, 'show'])->name('api.profile.show');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('api.profile.update');
+    // API Resources
+    Route::apiResources([
+        'items' => ItemController::class,
+        'customers' => CustomerController::class,
+    ]);
 
-    Route::apiResource('/items', ItemController::class)->names('api.items');
-    Route::apiResource('/customers', CustomerController::class)->names('api.customers');
-    Route::apiResource('/invoices', InvoiceController::class)->except('update')->names('api.invoices');
+    Route::apiResource('invoices', InvoiceController::class)
+        ->except('update')
+        ->names('invoices');
 });
